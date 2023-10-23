@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       precio: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
           min: 1,
