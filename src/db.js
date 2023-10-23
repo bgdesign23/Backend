@@ -49,7 +49,7 @@ const { Product, Category, User } = sequelize.models;
 Category.hasMany(Product, { as: "products" });
 Product.belongsTo(Category, {
   foreignKey: "categoryId",
-  as: "categories",
+  as: "category",
 });
 
 User.belongsToMany(Product, { through: "user_product" });
