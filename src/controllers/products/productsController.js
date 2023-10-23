@@ -1,12 +1,12 @@
-const { Product } = require("../db");
+const { Product, Category } = require("../../db");
 
 const getProducts_controller = async () => {
+  const  data  = await Product.findAll();
+  //  console.log("que hay", data);
   if (!data.length) {
     throw new Error("did not find products");
-  } else {
-    const data = await Product.findAll();
-    return data;
   }
+  return data;
 };
 
 const createNewProduct_controller = async (data) => {
@@ -24,15 +24,15 @@ const createNewProduct_controller = async (data) => {
     const newProduct = await Product.create(productObj);
     // await newProduct.addCategory(data.Category);
     await newProduct.save();
-    const productCreated = await Pokemon.findOne({
-      where: { name: newProduct.name },
-      include: {
-        model: category,
-        attributes: ["name"],
-        through: { attributes: [] },
-      },
-    });
-    return productCreated;
+    // const productCreated = await Product.findOne({
+    //   where: { name: newProduct.name },
+    //   include: {
+    //     model: Category,
+    //     attributes: ["name"],
+    //     through: { attributes: [] },
+    //   },
+    // });
+    // return productCreated;
   } catch (error) {
     throw new Error(error.message);
   }
