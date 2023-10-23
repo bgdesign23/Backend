@@ -8,10 +8,10 @@ const { Router } = require("express");
 // } = require("../handlers/pokemonHandler");
 const prodRouter = Router();
 
-prodRouter.get("/", "handlers");
-prodRouter.get("/:id");
-prodRouter.get("/nav/:name");
-prodRouter.post("/create");
-prodRouter.delete("/delete/:id");
+// prodRouter.get("/", "handlers");
+// prodRouter.get("/:id");
+// prodRouter.get("/nav/:name");
+// prodRouter.post("/create");
+// prodRouter.delete("/delete/:id");
 
 module.exports = prodRouter;

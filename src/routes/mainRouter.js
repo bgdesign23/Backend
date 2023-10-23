@@ -7,7 +7,7 @@ const { Router } = require("express");
 const mainRouter = Router();
 
 //router paths moduls
-mainRouter.use("/products", productsRoutes);
-mainRouter.use("/type", typeRoutes);
+// mainRouter.use("/products", productsRoutes);
+// mainRouter.use("/type", typeRoutes);
 
 module.exports = mainRouter;

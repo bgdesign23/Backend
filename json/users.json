@@ -1,0 +1,12 @@
+{
+    "users": [
+        {
+            "id": "b2e98d0e-f01f-4f55-9e9a-62ba7c24b1b2",
+            "name": "bgdesign23",
+            "phone": "123456789",
+            "location": "Buenos Aires",
+            "email": "bgd.grupo12@gmail.com",
+            "password": "asd123"
+        }
+    ]
+}
