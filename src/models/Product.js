@@ -22,6 +22,10 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM("Comercial", "Oficina", "Hogar"),
         allowNull: false,
       },
+      material: {
+        type: DataTypes.ENUM("Pino", "Paraiso", "Roble"),
+        allowNull: false,
+      },
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -30,11 +34,8 @@ module.exports = (sequelize) => {
         },
       },
       stock: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          min: 0,
-        },
       },
       image: {
         type: DataTypes.STRING,
