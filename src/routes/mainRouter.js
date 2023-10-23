@@ -7,7 +7,7 @@ const { Router } = require("express");
 const mainRouter = Router();
 
 //router paths moduls
-// mainRouter.use("/pokemon", pokemonsRoutes); //modificar
-// mainRouter.use("/type", typeRoutes); //modificar
+mainRouter.use("/products", productsRoutes);
+mainRouter.use("/type", typeRoutes);
 
 module.exports = mainRouter;

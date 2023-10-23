@@ -22,11 +22,18 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM("Comercial", "Oficina", "Hogar"),
         allowNull: false,
       },
-      precio: {
+      price: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
           min: 1,
+        },
+      },
+      stock: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 0,
         },
       },
       image: {
