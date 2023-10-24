@@ -13,7 +13,7 @@ const fillUsers = async () => {
       for (let i = 0; i < newUsers.length; i++) {
         await User.create({
           id: newUsers[i].id,
-          name: newUsers[i].name,
+          username: newUsers[i].username,
           phone: newUsers[i].phone,
           location: newUsers[i].location,
           email: newUsers[i].email,
@@ -64,6 +64,7 @@ const fillProducts = async () => {
           stock: products[i].stock,
           image: products[i].image,
           color: products[i].color,
+          oferr: products[i].oferr
         });
       }
     }
