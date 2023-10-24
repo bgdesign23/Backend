@@ -1,7 +1,7 @@
-// const { Router } = require("express");
-// const categoriesRouter = Router();
-// const getCategoty = require("../controllers/category_controller");
+const { Router } = require("express");
+const { getCategories_Handler } = require("../handlers/categoriesHandler");
+const cateRouter = Router();
 
-// categoriesRouter.get("/");
+cateRouter.get("/", getCategories_Handler);
 
-// module.exports = categoriesRouter;
+module.exports = cateRouter;
