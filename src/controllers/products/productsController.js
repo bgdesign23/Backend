@@ -1,7 +1,7 @@
 const { Product, Category } = require("../../db");
 
 const getProducts_controller = async () => {
-  const  data  = await Product.findAll();
+  const data = await Product.findAll();
   //  console.log("que hay", data);
   if (!data.length) {
     throw new Error("did not find products");
@@ -22,7 +22,7 @@ const createNewProduct_controller = async (data) => {
       color: data.color,
     };
     const newProduct = await Product.create(productObj);
-    // await newProduct.addCategory(data.Category);
+    await newProduct.addCategory(data.Category);
     await newProduct.save();
     // const productCreated = await Product.findOne({
     //   where: { name: newProduct.name },
