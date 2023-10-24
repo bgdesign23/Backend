@@ -27,7 +27,7 @@ server.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  console.log("Hola soy morgan...y estas haciendo:");
+  // console.log("Hola soy morgan...y estas haciendo:");
   next();
 });
 
