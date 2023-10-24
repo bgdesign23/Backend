@@ -95,7 +95,7 @@ const postProduct_Rating_controller = async (id, newRating) => {
 
       product.rating = parseInt(product.rating);
 
-      console.log(product); // Devuelve el producto actualizado
+      /* console.log(product); */ // Devuelve el producto actualizado
       return product;
     } else {
       // Maneja el caso en el que el producto no se encuentra

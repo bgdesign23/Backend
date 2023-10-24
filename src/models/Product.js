@@ -40,7 +40,6 @@ module.exports = (sequelize) => {
       rating: {
         type: DataTypes.FLOAT,
         defaultValue: 0,
-        allowNull: true,
         validate: {
           min: 0,
           max: 5,
@@ -49,12 +48,10 @@ module.exports = (sequelize) => {
       ratingCount: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
-        allowNull: false,
       },
       totalRating: {
         type: DataTypes.FLOAT,
         defaultValue: 0.0,
-        allowNull: false,
       },
       image: {
         type: DataTypes.STRING,
