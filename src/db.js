@@ -3,14 +3,19 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const { DB_URL } = process.env;
 
 //conecting DataBase with our user Postgres//check file .env
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/muebles`,
+  DB_URL,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+    dialectOptions: {
+      ssl: {
+        require: true,
+      },
+    },
   }
 );
 
@@ -48,7 +53,7 @@ const { Product, Category, User } = sequelize.models;
 
 Category.hasMany(Product, { as: "products" });
 Product.belongsTo(Category, {
-  foreignKey: "categoryId",
+  foreignKey: "CategoryId",
   as: "category",
 });
 
