@@ -1,7 +1,8 @@
 const { Router } = require("express");
 
-const productsRoutes = require("./productsRoutes");
-const cateRouter = require("./categoriesRoutes");
+const productsRoutes = require("./productsRoutes.js");
+const cateRouter = require("./categoriesRoutes.js");
+const usersRouter = require("./usersRoutes.js");
 
 // router initializated
 const mainRouter = Router();
@@ -9,5 +10,6 @@ const mainRouter = Router();
 //router paths moduls
 mainRouter.use("/products", productsRoutes);
 mainRouter.use("/categories", cateRouter);
+mainRouter.use("/users", usersRouter);
 
 module.exports = mainRouter;
