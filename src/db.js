@@ -2,7 +2,7 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
-const pg = require('pg');
+const pg = require("pg");
 const path = require("path");
 const { DB_URL } = process.env;
 
@@ -17,7 +17,7 @@ const sequelize = new Sequelize(DB_URL, {
   },
   dialect: "postgres",
   protocol: "postgres",
-  dialectModule: pg
+  dialectModule: pg,
 });
 
 const basename = path.basename(__filename);

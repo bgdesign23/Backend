@@ -35,19 +35,13 @@ const getProducts_By_Name_Controller = async (name) => {
         },
       },
     });
-
-    // include: {
-    //   model: Category,
-    //   attributes: ["name"],
-    //   through: { attributes: [] },
-    // },
     return Prodfound;
   } catch (error) {
     return new Error("this product does not exist");
   }
 };
 
-const createNewProduct_controller = async (data, category_Id) => {
+const createNewProduct_controller = async (data) => {
   try {
     const productObj = {
       name: data.name.toLowerCase(),
@@ -60,17 +54,13 @@ const createNewProduct_controller = async (data, category_Id) => {
       color: data.color,
     };
     const newProduct = await Product.create(productObj);
-    await newProduct.addCategory(data.Category);
+
+    const catFound = await Category.findOne({
+      where: { name: data.CategoryId },
+    });
+    console.log(catFound);
+    await newProduct.setCategory(catFound);
     await newProduct.save();
-    // const productCreated = await Product.findOne({
-    //   where: { name: newProduct.name },
-    //   include: {
-    //     model: Category,
-    //     attributes: ["name"],
-    //     through: { attributes: [] },
-    //   },
-    // });
-    // return productCreated;
   } catch (error) {
     throw new Error(error.message);
   }
