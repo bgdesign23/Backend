@@ -54,8 +54,8 @@ module.exports = (sequelize) => {
         defaultValue: 0.0,
       },
       image: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.TEXT,
+        defaultValue: 'https://img.freepik.com/vector-gratis/gradiente-diseno-letrero-foto_23-2149288316.jpg'
       },
       color: {
         type: DataTypes.STRING,
