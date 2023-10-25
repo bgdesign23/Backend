@@ -5,13 +5,15 @@ const {
 
 const registerUser_Handler = async (req, res) => {
   const { username, phone, location, email, password } = req.body;
+  const image = req.files.image[0].path;
   try {
     const result = await registerUser_Controller(
       username,
       phone,
       location,
       email,
-      password
+      password,
+      image
     );
     if (!result) throw new Error("El usuario no pudo crearse");
     return res.status(200).json(result);
