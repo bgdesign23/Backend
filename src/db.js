@@ -6,18 +6,17 @@ const path = require("path");
 const { DB_URL } = process.env;
 
 //conecting DataBase with our user Postgres//check file .env
-const sequelize = new Sequelize(
-  DB_URL,
-  {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-    dialectOptions: {
-      ssl: {
-        require: true,
-      },
+const sequelize = new Sequelize(DB_URL, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  dialectOptions: {
+    ssl: {
+      require: true,
     },
-  }
-);
+  },
+  dialect: "postgres",
+  protocol: "postgres",
+});
 
 const basename = path.basename(__filename);
 
