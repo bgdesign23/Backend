@@ -2,8 +2,6 @@ const {
   getCategories_Controller,
 } = require("../controllers/categories/categoriesController");
 
-const { Category } = require("../db");
-
 const getCategories_Handler = async (req, res) => {
   try {
     const categories = await getCategories_Controller();
