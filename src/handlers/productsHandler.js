@@ -41,6 +41,7 @@ const postProduct_handler = async (req, res) => {
   try {
     const data = req.body;
     if (
+      !data.CategoryId ||
       !data.name ||
       !data.description ||
       !data.type ||
