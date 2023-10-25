@@ -64,7 +64,7 @@ const fillProducts = async () => {
           stock: products[i].stock,
           image: products[i].image,
           color: products[i].color,
-          oferr: products[i].oferr
+          oferr: products[i].oferr,
         });
       }
     }
@@ -74,4 +74,22 @@ const fillProducts = async () => {
   }
 };
 
-module.exports = { fillUsers, fillCategories, fillProducts };
+const setCategories = async () => {
+  try {
+    let products = productsJson.products;
+    for (let i = 0; i < products.length; i++) {
+      let foundProduct = await Product.findOne({
+        where: { id: products[i].id },
+      });
+      let foundCategory = await Category.findOne({
+        where: { id: products[i].CategoryId },
+      });
+      await foundProduct.setCategory(foundCategory);
+    }
+    console.log("Categories set successfully");
+  } catch (error) {
+    console.error("Error during set categories: ", error);
+  }
+};
+
+module.exports = { fillUsers, fillCategories, fillProducts, setCategories };
