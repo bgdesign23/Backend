@@ -4,14 +4,14 @@ const {
     postOffer_handler,
     getOfferByIdHandler,
     deleteOfferHandler, 
-    // getOfferByNameHandler,
+    getOfferByNameHandler,
 } = require("../handlers/offerHandler");
 const offerRouter = Router();
 
 // RUTAS GET;
 offerRouter.get("/", getOfferHandler);
 offerRouter.get("/:id", getOfferByIdHandler);
-// offerRouter.get("/search/:name", getOfferHandler);
+offerRouter.get("/search/:title", getOfferByNameHandler);
 
 // RUTA POST;
 offerRouter.post("/create/:id", postOffer_handler);

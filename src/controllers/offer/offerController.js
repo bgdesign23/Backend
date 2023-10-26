@@ -44,26 +44,28 @@ const createNewOffer_controller = async (data, id) => {
 }
 }
 
-// Busqueda de la oferta por nombre; (a CHEQUEAR);
-// const getOfferByNameController = async (name) => {
-//   try {
-//     const offerFound = await Offer.findAll({
-//       where: {
-//         name: {
-//           [Op.iLike]: `%${name.toLowerCase()}%`,
-//         },
-//       },
-//       include: {
-//         model: User,
-//         attributes: ["name"],
-//         as: "user",
-//       }
-//     });
-//     return offerFound
-//   } catch (error) {
-//     return new Error("this product does not exist");
-//   }
-// }
+// Busqueda de la oferta por nombre;
+const getOfferByNameController = async (title) => {
+  try {
+    console.log(offerFound)
+    const offerFound = await Offer.findAll({
+      
+      where: {
+        name: {
+          [Op.iLike]: `%${title.toLowerCase()}%`,
+        },
+      },
+      include: {
+        model: User,
+        attributes: ["title"],
+        as: "user",
+      }
+    });
+    return offerFound
+  } catch (error) {
+    return new Error("this product does not exist");
+  };
+};
 
 // Busqueda por ID;
 const getOfferByIdController = async (id) => {
@@ -97,5 +99,5 @@ module.exports = {
     createNewOffer_controller,
     getOfferByIdController,
     deleteOfferController,
-    // getOfferByNameController
+    getOfferByNameController,
 }

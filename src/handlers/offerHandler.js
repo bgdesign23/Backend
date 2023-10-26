@@ -3,7 +3,7 @@ const {
     createNewOffer_controller,
     getOfferByIdController,
     deleteOfferController,
-    // getOfferByNameController,
+    getOfferByNameController,
 } = require("../controllers/offer/offerController");
 
 const { Offer } = require ("../db");
@@ -37,16 +37,16 @@ const postOffer_handler = async (req, res) => {
   };
 };
 
-// A CHEQUEAR;
-// const getOfferByNameHandler = async (req, res) => {
-//   try {
-//     const { name } = req.params;
-//     const oferta = await getOfferByNameController(name);
-//     return res.status(200).json(oferta);
-//   } catch (error) {
-//     return res.status(400).json({ error: error.message });
-//   }
-// }
+// Busqueda por nombre;
+const getOfferByNameHandler = async (req, res) => {
+  try {
+    const { title } = req.params;
+    const oferta = await getOfferByNameController(title);
+    return res.status(200).json(oferta);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  };
+};
 
 // Busqueda por ID;
 const getOfferByIdHandler = async (req, res) => {
@@ -69,10 +69,7 @@ const deleteOfferHandler = async (req, res) => {
     } else return res.status(404).json("Offer not found");
   } catch (error) {
     return res.status(500).json({ error: error.message })
-    
-  }
-
-
+  };
 };
 
 
@@ -80,6 +77,6 @@ module.exports = {
     getOfferHandler,
     postOffer_handler,
     getOfferByIdHandler,
-    deleteOfferHandler
-    // getOfferByNameHandler,
+    deleteOfferHandler,
+    getOfferByNameHandler,
 }
