@@ -17,9 +17,9 @@ const createCategory_Controller = async (data) => {
     const categoryObj = {
       name: data.name.toLowerCase(),
     }
-    console.log(categoryObj)
+    
     const newCategory = await Category.create(categoryObj);
-    console.log(newCategory)
+    
     return newCategory; // Devuelve la categoría creada sin enviar respuesta
   } catch (error) {
     throw new Error(error.message);
