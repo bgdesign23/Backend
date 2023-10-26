@@ -10,15 +10,15 @@ const {
 const prodRouter = Router();
 
 // Manejo de archivos "file" (imagen)
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+// const multer = require("multer");
+// const upload = multer({ dest: "uploads/" });
 
 //GETS
 prodRouter.get("/", getProduct_handler);
 prodRouter.get("/:id", getProduct_ById_handler);
 prodRouter.get("/search/:name", getProduct_ByName_handler);
 //POST
-prodRouter.post("/create", upload.fields([{ name: "image", maxCount: 1 }]), postProduct_handler);
+prodRouter.post("/create", /* upload.fields([{ name: "image", maxCount: 1 }]), */ postProduct_handler);
 //DELETE
 prodRouter.delete("/delete/:id", deleteProduct_handler);
 //PUT
