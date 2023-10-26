@@ -55,8 +55,9 @@ const createNewProduct_controller = async (data, image) => {
     if (image === "") {
       image =
         "https://img.freepik.com/vector-gratis/gradiente-diseno-letrero-foto_23-2149288316.jpg";
+    } else { 
+      image = await postImageProductCloudinary(image);
     }
-    if (image.includes("uploads\\")) image = await postImageProductCloudinary(image);
 
     const productObj = {
       name: data.name.toLowerCase(),
