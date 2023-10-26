@@ -14,7 +14,16 @@ const getCategories_Controller = async () => {
 
 const createCategory_Controller = async (data) => {
   try {
+    const lastCategory = await Category.findOne({
+      order: [["id", "DESC"]],
+    });
+
+    let newCategoryId = 1;
+    if (lastCategory) {
+      newCategoryId = lastCategory.id + 1;
+    }
     const categoryObj = {
+      id: newCategoryId,
       name: data.name.toLowerCase(),
     }
     console.log(categoryObj)

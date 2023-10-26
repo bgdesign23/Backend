@@ -1,9 +1,13 @@
 const { Product, Category } = require("../../db");
 const { Op } = require("sequelize");
+const { postImageProductCloudinary } = require("../../middlewares/cloudinary.js")
 
 const getProducts_controller = async () => {
-  const data = await Product.findAll();
-  //  console.log("que hay", data);
+  const data = await Product.findAll({include: {
+        model: Category,
+        attributes: ["name"],
+        as: "category",
+      }});
   if (!data.length) {
     throw new Error("did not find products");
   }
@@ -14,11 +18,11 @@ const getProducts_By_Id_Controller = async (id) => {
   try {
     const Prodfound = await Product.findOne({
       where: { id: id },
-      // include: {
-      //   model: Category,
-      //   attributes: ["name"],
-      //   through: { attributes: [] },
-      // },
+      include: {
+        model: Category,
+        attributes: ["name"],
+        as: "category",
+      },
     });
     return Prodfound;
   } catch (error) {
@@ -34,6 +38,11 @@ const getProducts_By_Name_Controller = async (name) => {
           [Op.iLike]: `%${name.toLowerCase()}%`, //esta linea es para que no sea escritura estricta
         },
       },
+      include: {
+        model: Category,
+        attributes: ["name"],
+        as: "category",
+      }
     });
     return Prodfound;
   } catch (error) {
@@ -41,8 +50,14 @@ const getProducts_By_Name_Controller = async (name) => {
   }
 };
 
-const createNewProduct_controller = async (data) => {
+const createNewProduct_controller = async (data, image) => {
   try {
+    if (image === "") {
+      image =
+        "https://img.freepik.com/vector-gratis/gradiente-diseno-letrero-foto_23-2149288316.jpg";
+    }
+    if (image.includes("uploads\\")) image = await postImageProductCloudinary(image);
+
     const productObj = {
       name: data.name.toLowerCase(),
       description: data.description,
@@ -50,7 +65,7 @@ const createNewProduct_controller = async (data) => {
       material: data.material,
       price: data.price,
       stock: data.stock,
-      image: data.image,
+      image: image,
       color: data.color,
     };
     const newProduct = await Product.create(productObj);

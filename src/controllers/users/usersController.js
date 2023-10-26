@@ -1,11 +1,13 @@
 const { User } = require("../../db.js");
+const { postImageUserCloudinary } = require("../../middlewares/cloudinary.js")
 
 const registerUser_Controller = async (
   username,
   phone,
   location,
   email,
-  password
+  password,
+  image
 ) => {
   try {
     if (!username || !phone || !location || !email || !password)
@@ -16,12 +18,20 @@ const registerUser_Controller = async (
     const existingUser = await User.findOne({ where: { email } });
 
     if (existingUser) throw new Error("Ya existe un usuario con ese correo");
+
+    if (image === "") {
+      image =
+        "https://i.imgur.com/veqwMvk.jpg";
+    }
+    if (image.includes("uploads\\")) image = await postImageUserCloudinary(image);
+
     const newUser = await User.create({
       username: username,
       phone: phone,
       location: location,
       email: email,
       password: password,
+      image: image
     });
     return {
       user: newUser,
