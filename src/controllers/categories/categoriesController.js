@@ -1,5 +1,6 @@
 const { Category } = require("../../db");
 const categoriesJson = require("../../../json/categories.json");
+const { Op } = require("sequelize");
 
 const getCategories_Controller = async () => {
   try {
@@ -14,6 +15,18 @@ const getCategories_Controller = async () => {
 
 const createCategory_Controller = async (data) => {
   try {
+    const found = await Category.findOne({
+      where: {
+        name: {
+          [Op.iLike]: `%${data.name.toLowerCase()}%`,
+        },
+      },
+    });
+
+    if (found) {
+      throw new Error("esa categoria ya existe");
+    }
+
     const lastCategory = await Category.findOne({
       order: [["id", "DESC"]],
     });
@@ -25,10 +38,10 @@ const createCategory_Controller = async (data) => {
     const categoryObj = {
       id: newCategoryId,
       name: data.name.toLowerCase(),
-    }
-    
+    };
+
     const newCategory = await Category.create(categoryObj);
-    
+
     return newCategory; // Devuelve la categoría creada sin enviar respuesta
   } catch (error) {
     throw new Error(error.message);
@@ -37,5 +50,5 @@ const createCategory_Controller = async (data) => {
 
 module.exports = {
   getCategories_Controller,
-  createCategory_Controller
+  createCategory_Controller,
 };
