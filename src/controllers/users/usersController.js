@@ -22,8 +22,9 @@ const registerUser_Controller = async (
     if (image === "") {
       image =
         "https://i.imgur.com/veqwMvk.jpg";
+    } else {
+      image = await postImageUserCloudinary(image);
     }
-    if (image.includes("uploads\\")) image = await postImageUserCloudinary(image);
 
     const newUser = await User.create({
       username: username,
