@@ -1,5 +1,4 @@
 const { User } = require("../../db.js");
-const { postImageUserCloudinary } = require("../../middlewares/cloudinary.js")
 
 const registerUser_Controller = async (
   username,
@@ -22,8 +21,6 @@ const registerUser_Controller = async (
     if (image === "") {
       image =
         "https://i.imgur.com/veqwMvk.jpg";
-    } else {
-      image = await postImageUserCloudinary(image);
     }
 
     const newUser = await User.create({

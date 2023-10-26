@@ -6,12 +6,15 @@ const {
 } = require("../handlers/usersHandler.js");
 
 // Manejo de archivos "file" (imagen)
-// const multer = require("multer");
-// const upload = multer({ dest: "uploads/" });
+const { uploadUserCloudinary } = require("../middlewares/cloudinary.js");
 
 const usersRouter = Router();
 
 usersRouter.post("/login", loginUser_Handler);
-usersRouter.post("/register", /* upload.fields([{ name: "image", maxCount: 1 }]), */ registerUser_Handler);
+usersRouter.post(
+  "/register",
+  uploadUserCloudinary.single("image"),
+  registerUser_Handler
+);
 
 module.exports = usersRouter;
