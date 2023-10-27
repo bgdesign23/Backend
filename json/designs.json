@@ -1,0 +1,52 @@
+{
+    "designs": [
+        {
+            "name": "Refugio Bohemio",
+            "description": "Ambiente cálido con detalles artesanales y textiles naturales.",
+            "type": "Bohemio",
+            "image": "https://i.pinimg.com/originals/3b/93/b7/3b93b7d43a7a1dc86940faaad8c7f0c7.jpg"
+        },
+        {
+            "name": "Sala Bohemia de Lectura",
+            "description": "Rincón con cojines, estantes de madera y luces tenues.",
+            "type": "Bohemio",
+            "image": "https://i.pinimg.com/originals/a7/8a/ee/a78aee942e003d447611cc4ac7eeee69.jpg"
+        },
+        {
+            "name": "Estudio Artístico Bohemio",
+            "description": "Espacio inspirador con pinceladas de color y elementos reciclados.",
+            "type": "Bohemio",
+            "image": "https://i.pinimg.com/originals/e4/8b/53/e48b5335aeb3333d648bae69d00189a7.jpg"
+        },
+        {
+            "name": "Cocina Bohemia Rústica",
+            "description": "Cocina con azulejos antiguos, madera y detalles en macramé.",
+            "type": "Bohemio",
+            "image": "https://i.pinimg.com/originals/9d/16/6a/9d166a17fbc029d8a683fea7dc70d522.jpg"
+        },
+        {
+            "name": "Habitación Bohemia",
+            "description": "Decoración con paleta terrosa, textiles suaves y arte étnico.",
+            "type": "Bohemio",
+            "image": "https://i.pinimg.com/originals/7d/f6/3c/7df63c0a69f7dfcc6603676f86addcfe.jpg"
+        },
+        {
+            "name": "Loft Urbano Moderno",
+            "description": "Diseño abierto con grandes ventanas, superficies pulidas y metal.",
+            "type": "Moderno",
+            "image": "https://i.pinimg.com/originals/73/84/93/738493958438d8e67f77825f13513631.jpg"
+        },
+        {
+            "name": "Cocina Blanca Moderna",
+            "description": "Diseño sleek con encimeras de mármol, electrodomésticos integrados.",
+            "type": "Moderno",
+            "image": "https://i.pinimg.com/originals/ed/ff/bd/edffbddd70320b9fabf0ede8797dc699.jpg"
+        },
+        {
+            "name": "Baño Moderno",
+            "description": "Minimalismo con funcionalidad, tonos grises y acabados metálicos.",
+            "type": "Moderno",
+            "image": "https://i.pinimg.com/originals/33/e3/91/33e391848072c9d073adf7a56f0ce545.jpg"
+        }
+    ]
+}

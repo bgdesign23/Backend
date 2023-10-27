@@ -1,7 +1,8 @@
-const { User, Product, Category } = require("../src/db.js");
+const { User, Product, Category, Design } = require("../src/db.js");
 const usersJson = require("../json/users.json");
 const categoriesJson = require("../json/categories.json");
 const productsJson = require("../json/products.json");
+const designsJson = require("../json/designs.json");
 
 const fillUsers = async () => {
   try {
@@ -92,4 +93,26 @@ const setCategories = async () => {
   }
 };
 
-module.exports = { fillUsers, fillCategories, fillProducts, setCategories };
+const fillDesigns = async () => {
+  try {
+    let allDesigns = await Design.findAll();
+
+    if (!allDesigns.length) {
+      let designs = designsJson.designs;
+
+      for (let i = 0; i < designs.length; i++) {
+        await Design.create({
+          name: designs[i].name,
+          description: designs[i].description,
+          type: designs[i].type,
+          image: designs[i].image,
+        });
+      }
+    }
+    console.log("Designs filled successfully");
+  } catch (error) {
+    console.error("Error during fill designs: ", error);
+  }
+};
+
+module.exports = { fillUsers, fillCategories, fillProducts, setCategories, fillDesigns };
