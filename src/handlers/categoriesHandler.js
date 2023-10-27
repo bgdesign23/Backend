@@ -1,6 +1,6 @@
 const {
   getCategories_Controller,
-  createCategory_Controller
+  createCategory_Controller,
 } = require("../controllers/categories/categoriesController");
 
 const getCategories_Handler = async (req, res) => {
@@ -16,8 +16,8 @@ const createCategory_Handler = async (req, res) => {
   try {
     const data = req.body;
     if (!data.name) return res.status(400).json("Missing data");
-    console.log(data)
-    
+    console.log(data);
+
     const newCategory = await createCategory_Controller(data);
     return res.status(201).json(newCategory); // Devuelve la categoría creada en el handler
   } catch (error) {

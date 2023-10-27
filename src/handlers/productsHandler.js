@@ -4,6 +4,7 @@ const {
   getProducts_By_Id_Controller,
   getProducts_By_Name_Controller,
   postProduct_Rating_controller,
+  getProducts_By_Hashtag_Controller,
 } = require("../controllers/products/productsController");
 
 const { Product } = require("../db");
@@ -34,6 +35,18 @@ const getProduct_ByName_handler = async (req, res) => {
     return res.status(200).json(producto);
   } catch (error) {
     return res.status(400).json({ error: error.message });
+  }
+};
+
+const getProduct_ByHashtag_handler = async (req, res) => {
+  try {
+    const { hashtag } = req.params;
+    console.log(hashtag);
+    const producto = await getProducts_By_Hashtag_Controller(hashtag);
+    return res.status(200).json(producto);
+  } catch (error) {
+    // return res.status(400).json({ error: error.message });
+    console.log("no anda el handler");
   }
 };
 
@@ -95,4 +108,5 @@ module.exports = {
   getProduct_ByName_handler,
   deleteProduct_handler,
   postProduct_Rating_Handler,
+  getProduct_ByHashtag_handler,
 };

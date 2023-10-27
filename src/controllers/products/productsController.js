@@ -2,11 +2,13 @@ const { Product, Category } = require("../../db");
 const { Op } = require("sequelize");
 
 const getProducts_controller = async () => {
-  const data = await Product.findAll({include: {
-        model: Category,
-        attributes: ["name"],
-        as: "category",
-      }});
+  const data = await Product.findAll({
+    include: {
+      model: Category,
+      attributes: ["name"],
+      as: "category",
+    },
+  });
   if (!data.length) {
     throw new Error("did not find products");
   }
@@ -41,7 +43,27 @@ const getProducts_By_Name_Controller = async (name) => {
         model: Category,
         attributes: ["name"],
         as: "category",
-      }
+      },
+    });
+    return Prodfound;
+  } catch (error) {
+    return new Error("this product does not exist");
+  }
+};
+
+const getProducts_By_Hashtag_Controller = async (hashtag) => {
+  try {
+    const Prodfound = await Product.findAll({
+      where: {
+        hashtag: {
+          [Op.iLike]: `%${hashtag.toLowerCase()}%`,
+        },
+      },
+      include: {
+        model: Category,
+        attributes: ["name"],
+        as: "category",
+      },
     });
     return Prodfound;
   } catch (error) {
@@ -115,4 +137,5 @@ module.exports = {
   getProducts_By_Id_Controller,
   getProducts_By_Name_Controller,
   postProduct_Rating_controller,
+  getProducts_By_Hashtag_Controller,
 };

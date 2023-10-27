@@ -55,15 +55,20 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.TEXT,
-        defaultValue: 'https://img.freepik.com/vector-gratis/gradiente-diseno-letrero-foto_23-2149288316.jpg'
+        defaultValue:
+          "https://img.freepik.com/vector-gratis/gradiente-diseno-letrero-foto_23-2149288316.jpg",
       },
       color: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      oferr: {
+      offer: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      hashtag: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     { timestamps: false }
