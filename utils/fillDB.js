@@ -64,7 +64,8 @@ const fillProducts = async () => {
           stock: products[i].stock,
           image: products[i].image,
           color: products[i].color,
-          oferr: products[i].oferr,
+          offer: products[i].offer,
+          hashtag: products[i].hashtag,
         });
       }
     }

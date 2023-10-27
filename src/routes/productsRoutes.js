@@ -6,6 +6,7 @@ const {
   getProduct_ByName_handler,
   deleteProduct_handler,
   postProduct_Rating_Handler,
+  getProduct_ByHashtag_handler,
 } = require("../handlers/productsHandler");
 const prodRouter = Router();
 
@@ -17,8 +18,12 @@ const prodRouter = Router();
 prodRouter.get("/", getProduct_handler);
 prodRouter.get("/:id", getProduct_ById_handler);
 prodRouter.get("/search/:name", getProduct_ByName_handler);
+prodRouter.get("/searchByHashtag/:hashtag", getProduct_ByHashtag_handler);
 //POST
-prodRouter.post("/create", /* upload.fields([{ name: "image", maxCount: 1 }]), */ postProduct_handler);
+prodRouter.post(
+  "/create",
+  /* upload.fields([{ name: "image", maxCount: 1 }]), */ postProduct_handler
+);
 //DELETE
 prodRouter.delete("/delete/:id", deleteProduct_handler);
 //PUT
