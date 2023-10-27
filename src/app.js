@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const mainRouter = require("./routes/mainRouter.js");
+const cors = require("cors");
 
 require("./db.js");
 
@@ -18,7 +19,7 @@ server.use(cookieParser()); //express middleware to autenticate
 server.use(morgan("dev")); //middleware morgan
 server.use(express.json());
 //permissions
-server.use((req, res, next) => {
+/* server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173" || "https://blackgroupdesing.vercel.app/");
   // update to match the domain you will make the request from front-end
   res.header("Access-Control-Allow-Credentials", "true");
@@ -29,7 +30,20 @@ server.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   // console.log("Hola soy morgan...y estas haciendo:");
   next();
-});
+}); */
+
+// Middlewares y Cors
+const allowedOrigins = [
+  "https://blackgroupdesing.vercel.app",
+  "http://localhost:5173",
+];
+
+const corsOptions = {
+  origin: allowedOrigins,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+server.use(cors());
 
 //router path configurated
 server.use("/", mainRouter);

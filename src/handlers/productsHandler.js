@@ -53,7 +53,7 @@ const getProduct_ByHashtag_handler = async (req, res) => {
 const postProduct_handler = async (req, res) => {
   try {
     const data = req.body;
-    const image = req.files.image[0].path;
+    const image = typeof req.file === 'object' ? req.file.path : req.body.image;
     if (
       !data.CategoryId ||
       !data.name ||

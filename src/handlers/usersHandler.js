@@ -5,7 +5,7 @@ const {
 
 const registerUser_Handler = async (req, res) => {
   const { username, phone, location, email, password } = req.body;
-  const image = req.files.image[0].path;
+  const image = typeof req.file === 'object' ? req.file.path : req.body.image;
   try {
     const result = await registerUser_Controller(
       username,

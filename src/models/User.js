@@ -10,6 +10,9 @@ module.exports = (sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
+      googleId: {
+        type: DataTypes.TEXT,
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -35,6 +38,18 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
         defaultValue: 'https://i.imgur.com/veqwMvk.jpg'
       },
+      role: {
+        type: DataTypes.INTEGER,
+        defaultValue: 2,
+        validate: {
+          max: 5,
+          min: 1,
+        },
+      },
+      isDisabled: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
     },
     { timestamps: false }
   );

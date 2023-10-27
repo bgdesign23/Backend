@@ -1,8 +1,5 @@
 const { Product, Category } = require("../../db");
 const { Op } = require("sequelize");
-const {
-  postImageProductCloudinary,
-} = require("../../middlewares/cloudinary.js");
 
 const getProducts_controller = async () => {
   const data = await Product.findAll({
@@ -79,8 +76,6 @@ const createNewProduct_controller = async (data, image) => {
     if (image === "") {
       image =
         "https://img.freepik.com/vector-gratis/gradiente-diseno-letrero-foto_23-2149288316.jpg";
-    } else {
-      image = await postImageProductCloudinary(image);
     }
 
     const productObj = {

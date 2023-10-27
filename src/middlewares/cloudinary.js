@@ -1,62 +1,50 @@
-const fs = require("fs");
-const uploadImageCloudinary = require("../config/cloudinary.js");
+require("dotenv").config();
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { CLOUDINARY_NAME_IMAGE, CLOUDINARY_KEY_IMAGE, CLOUDINARY_SECRET_IMAGE } =
+  process.env;
 
-const postImageProductCloudinary = (image) => {
-  return new Promise((resolve, reject) => {
-    uploadImageCloudinary.uploader.upload(
-      image,
-      { resource_type: "image", folder: "/productsfiles", overwrite: true },
-      (error, result) => {
-        fs.unlink(image, (deleteErr) => {
-          if (deleteErr) {
-            console.error(
-              "Error al eliminar el archivo temporal: ",
-              deleteErr.message
-            );
-          }
-          if (error) {
-            console.error(
-              "Error al cargar el archivo en Cloudinary: ",
-              error.message
-            );
-            reject(error);
-          } else {
-            console.log("Temp file was deleted " + result.secure_url);
-            resolve(result.secure_url);
-          }
-        });
-      }
-    );
-  });
-};
+cloudinary.config({
+  cloud_name: CLOUDINARY_NAME_IMAGE,
+  api_key: CLOUDINARY_KEY_IMAGE,
+  api_secret: CLOUDINARY_SECRET_IMAGE,
+});
 
-const postImageUserCloudinary = (image) => {
-  return new Promise((resolve, reject) => {
-    uploadImageCloudinary.uploader.upload(
-      image,
-      { resource_type: "image", folder: "/usersfiles", overwrite: true },
-      (error, result) => {
-        fs.unlink(image, (deleteErr) => {
-          if (deleteErr) {
-            console.error(
-              "Error al eliminar el archivo temporal: ",
-              deleteErr.message
-            );
-          }
-          if (error) {
-            console.error(
-              "Error al cargar el archivo en Cloudinary: ",
-              error.message
-            );
-            reject(error);
-          } else {
-            console.log("Temp file was deleted " + result.secure_url);
-            resolve(result.secure_url);
-          }
-        });
-      }
-    );
-  });
-};
+const storageProducts = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "Products",
+    allowed_formats: ["jpg", "jpeg", "png", "PNG"],
+  },
+});
 
-module.exports = { postImageProductCloudinary, postImageUserCloudinary };
+const storageUsers = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "Users",
+    allowed_formats: ["jpg", "jpeg", "png", "PNG"],
+  },
+});
+
+const uploadProductCloudinary = multer({
+  storage: storageProducts,
+  fileFilter: (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|PNG)$/)) {
+      return cb(new Error("File type is not supported"), false);
+    }
+    cb(null, true);
+  },
+});
+
+const uploadUserCloudinary = multer({
+  storage: storageUsers,
+  fileFilter: (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|PNG)$/)) {
+      return cb(new Error("File type is not supported"), false);
+    }
+    cb(null, true);
+  },
+});
+
+module.exports = { uploadProductCloudinary, uploadUserCloudinary };

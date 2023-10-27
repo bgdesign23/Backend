@@ -11,8 +11,7 @@ const {
 const prodRouter = Router();
 
 // Manejo de archivos "file" (imagen)
-// const multer = require("multer");
-// const upload = multer({ dest: "uploads/" });
+const { uploadProductCloudinary } = require("../middlewares/cloudinary.js");
 
 //GETS
 prodRouter.get("/", getProduct_handler);
@@ -22,7 +21,8 @@ prodRouter.get("/searchByHashtag/:hashtag", getProduct_ByHashtag_handler);
 //POST
 prodRouter.post(
   "/create",
-  /* upload.fields([{ name: "image", maxCount: 1 }]), */ postProduct_handler
+  uploadProductCloudinary.single("image"),
+  postProduct_handler
 );
 //DELETE
 prodRouter.delete("/delete/:id", deleteProduct_handler);
