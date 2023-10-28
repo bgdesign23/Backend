@@ -1,8 +1,8 @@
 const { User, Product, Category, Design } = require("../db.js");
-const usersJson = require("../../json/users.json");
-const categoriesJson = require("../../json/categories.json");
-const productsJson = require("../../json/products.json");
-const designsJson = require("../../json/designs.json");
+const usersJson = require("./json/users.json");
+const categoriesJson = require("./json/categories.json");
+const productsJson = require("./json/products.json");
+const designsJson = require("./json/designs.json");
 const { bcrypt, saltRounds } = require("../middlewares/bcrypt.js");
 
 const fillUsers = async () => {
