@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //server and Db synchronization
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
@@ -8,7 +9,7 @@ const {
   fillProducts,
   setCategories,
   fillDesigns
-} = require("./utils/fillDB.js");
+} = require("./src/utils/fillDB.js");
 
 // Syncing all the models at once.//configuracion inicial
 conn.sync({ alter: true }).then(() => {
@@ -16,6 +17,6 @@ conn.sync({ alter: true }).then(() => {
   server.listen(PORT, async () => {
     await Promise.all([fillUsers(), fillCategories(), fillProducts(), fillDesigns()]);
     await Promise.all([setCategories()]);
-    console.log(`server listening at ${PORT}`); // eslint-disable-line no-console
+    console.log(`Server listening at ${PORT}`); // eslint-disable-line no-console
   });
 });

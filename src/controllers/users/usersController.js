@@ -1,4 +1,7 @@
 const { User } = require("../../db.js");
+const { signToken, verifyToken } = require("../../middlewares/jwt.js");
+const { bcrypt, saltRounds } = require("../../middlewares/bcrypt.js");
+const { emailSuccessfulRegistration } = require("../../utils/nodemailer/emails.js");
 
 const registerUser_Controller = async (
   username,
@@ -23,18 +26,33 @@ const registerUser_Controller = async (
         "https://i.imgur.com/veqwMvk.jpg";
     }
 
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     const newUser = await User.create({
       username: username,
       phone: phone,
       location: location,
       email: email,
-      password: password,
+      password: hashedPassword,
       image: image
     });
+
+    const token = await signToken(
+      { user: newUser.dataValues },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    await emailSuccessfulRegistration(
+      { username: newUser.username, email: newUser.email },
+      token
+    );
+
     return {
       error: null,
       authenticated: true,
       user: newUser,
+      token: token,
       message: "Usuario creado con éxito",
     };
   } catch (error) {
@@ -47,22 +65,29 @@ const loginUser_Controller = async (email, password) => {
     if (!email || !password) throw new Error("Falta información requerida");
     if (!/\S+@\S+\.\S+/.test(email)) throw new Error("Email inválido");
 
-    const findUser = await User.findOne({ where: { email } });
-    if (!findUser) throw new Error("Usuario no encontrado");
+    const foundUser = await User.findOne({ where: { email } });
+    if (!foundUser) throw new Error("Usuario no encontrado");
+
+    const comparePassword = await bcrypt.compare(password, foundUser.password);
+  if (!comparePassword) throw new Error("Contraseña incorrecta");
 
     const objUser = {
-      id: findUser.id,
-      username: findUser.username,
-      phone: findUser.phone,
-      location: findUser.location,
-      email: findUser.email,
-      password: findUser.password,
+      id: foundUser.id,
+      username: foundUser.username,
+      phone: foundUser.phone,
+      location: foundUser.location,
+      email: foundUser.email,
+      password: foundUser.password,
+      image: foundUser.image,
     };
+
+    const token = await signToken({user: foundUser.dataValues}, process.env.JWT_SECRET, {expiresIn: '24h'})
 
     return {
       error: null,
       authenticated: true,
       user: objUser,
+      token: token,
       message: "Logueado con éxito",
     };
   } catch (error) {
@@ -70,7 +95,22 @@ const loginUser_Controller = async (email, password) => {
   }
 };
 
+const getUser_Controller = async (token) => {
+  
+  if(!token) throw new Error('El servidor no recibió el token necesario')
+
+  const decoded = await verifyToken(token, process.env.JWT_SECRET)
+
+  return {
+    error: null,
+    authenticated: true,
+    token: token,
+    user: decoded.user,
+}
+};
+
 module.exports = {
   registerUser_Controller,
   loginUser_Controller,
+  getUser_Controller,
 };
