@@ -1,8 +1,9 @@
-const { User, Product, Category, Design } = require("../src/db.js");
-const usersJson = require("../json/users.json");
-const categoriesJson = require("../json/categories.json");
-const productsJson = require("../json/products.json");
-const designsJson = require("../json/designs.json");
+const { User, Product, Category, Design } = require("../db.js");
+const usersJson = require("../../json/users.json");
+const categoriesJson = require("../../json/categories.json");
+const productsJson = require("../../json/products.json");
+const designsJson = require("../../json/designs.json");
+const { bcrypt, saltRounds } = require("../middlewares/bcrypt.js");
 
 const fillUsers = async () => {
   try {
@@ -10,15 +11,16 @@ const fillUsers = async () => {
 
     if (!allUsers.length) {
       let newUsers = usersJson.users;
-
+      
       for (let i = 0; i < newUsers.length; i++) {
+        const hashedPassword = await bcrypt.hash(newUsers[i].password, saltRounds);
         await User.create({
           id: newUsers[i].id,
           username: newUsers[i].username,
           phone: newUsers[i].phone,
           location: newUsers[i].location,
           email: newUsers[i].email,
-          password: newUsers[i].password,
+          password: hashedPassword,
           role: newUsers[i].role,
         });
       }
