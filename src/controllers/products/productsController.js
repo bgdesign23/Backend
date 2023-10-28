@@ -91,10 +91,26 @@ const createNewProduct_controller = async (data, image) => {
     const newProduct = await Product.create(productObj);
 
     const catFound = await Category.findOne({
-      where: { name: data.CategoryId },
+      where: { name: data.category },
     });
-    console.log(catFound);
-    await newProduct.setCategory(catFound);
+    if (!catFound) {
+      const lastCategory = await Category.findOne({
+        order: [["id", "DESC"]],
+      });
+  
+      let newCategoryId = 1;
+      if (lastCategory) {
+        newCategoryId = lastCategory.id + 1;
+      }
+      const categoryObj = {
+        id: newCategoryId,
+        name: data.category,
+      }
+      const newCategory = await Category.create(categoryObj);
+      await newProduct.setCategory(newCategory);
+    } else {
+      await newProduct.setCategory(catFound);
+    }
     await newProduct.save();
   } catch (error) {
     throw new Error(error.message);

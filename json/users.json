@@ -6,7 +6,8 @@
             "phone": "123456789",
             "location": "Buenos Aires",
             "email": "bgd.grupo12@gmail.com",
-            "password": "asd123"
+            "password": "asd123",
+            "role": 1
         }
     ]
 }

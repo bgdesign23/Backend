@@ -32,6 +32,8 @@ const registerUser_Controller = async (
       image: image
     });
     return {
+      error: null,
+      authenticated: true,
       user: newUser,
       message: "Usuario creado con éxito",
     };
@@ -58,6 +60,8 @@ const loginUser_Controller = async (email, password) => {
     };
 
     return {
+      error: null,
+      authenticated: true,
       user: objUser,
       message: "Logueado con éxito",
     };

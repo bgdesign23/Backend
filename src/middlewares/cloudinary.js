@@ -15,7 +15,7 @@ const storageProducts = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "Products",
-    allowed_formats: ["jpg", "jpeg", "png", "PNG"],
+    // allowed_formats: ["jpg", "jpeg", "png", "PNG"],
   },
 });
 
@@ -23,7 +23,7 @@ const storageUsers = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "Users",
-    allowed_formats: ["jpg", "jpeg", "png", "PNG"],
+    // allowed_formats: ["jpg", "jpeg", "png", "PNG"],
   },
 });
 

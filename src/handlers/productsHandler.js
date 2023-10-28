@@ -55,7 +55,7 @@ const postProduct_handler = async (req, res) => {
     const data = req.body;
     const image = typeof req.file === 'object' ? req.file.path : req.body.image;
     if (
-      !data.CategoryId ||
+      !data.category ||
       !data.name ||
       !data.description ||
       !data.type ||
@@ -64,14 +64,14 @@ const postProduct_handler = async (req, res) => {
       !data.stock ||
       !data.color
     )
-      return res.status(400).json("missing form data");
+      return res.status(400).json({ message: "Falta información requerida"});
 
     const findProduct = await Product.findOne({
       where: { name: data.name.toLowerCase() },
     });
 
     if (findProduct)
-      return res.status(302).json({ message: "this product already exists" });
+      return res.status(302).json({ message: "Ya existe un producto con ese nombre" });
     const newProduct = await createNewProduct_controller(data, image);
     return res.json(newProduct);
   } catch (error) {
