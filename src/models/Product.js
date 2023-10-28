@@ -19,11 +19,11 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       type: {
-        type: DataTypes.ENUM("Comercial", "Oficina", "Hogar"),
+        type: DataTypes.STRING,
         allowNull: false,
       },
       material: {
-        type: DataTypes.ENUM("Pino", "Paraiso", "Roble"),
+        type: DataTypes.STRING,
         allowNull: false,
       },
       price: {

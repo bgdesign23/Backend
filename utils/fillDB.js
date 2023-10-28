@@ -19,6 +19,7 @@ const fillUsers = async () => {
           location: newUsers[i].location,
           email: newUsers[i].email,
           password: newUsers[i].password,
+          role: newUsers[i].role,
         });
       }
     }
