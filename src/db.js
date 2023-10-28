@@ -2,17 +2,23 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
+const pg = require("pg");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const { DB_URL } = process.env;
 
 //conecting DataBase with our user Postgres//check file .env
-const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/pokemon`,
-  {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  }
-);
+const sequelize = new Sequelize(DB_URL, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  dialectOptions: {
+    ssl: {
+      require: true,
+    },
+  },
+  dialect: "postgres",
+  protocol: "postgres",
+  dialectModule: pg,
+});
 
 const basename = path.basename(__filename);
 
@@ -41,13 +47,34 @@ sequelize.models = Object.fromEntries(capsEntries);
 // in sequelize.models there are all models imported as properties
 // to relate we do a destructuring
 
-// const { Pokemon, Type } = sequelize.models;
+const { Product, Category, User, Offer, Design } = sequelize.models;
 
 // Here the relationships would come
 // Product.hasMany(Reviews);
 
-// Pokemon.belongsToMany(Type, { through: "PokemonType" }); //modificar con nuestra nuevos modelos
-// Type.belongsToMany(Pokemon, { through: "PokemonType" });
+Category.hasMany(Product, { as: "products" });
+Product.belongsTo(Category, {
+  foreignKey: "CategoryId",
+  as: "category",
+});
+
+User.belongsToMany(Product, { through: "user_product" });
+Product.belongsToMany(User, { through: "user_product" });
+
+Product.belongsToMany(Offer, { through: "product_offer" });
+Offer.belongsToMany(Product, { through: "product_offer" });
+
+User.hasMany(Offer, { as: "offers" });
+Offer.belongsTo(User, {
+  foreignKey: "UserId",
+  as: "user",
+});
+
+User.hasMany(Design, { as: "designs" });
+Design.belongsTo(User, {
+  foreignKey: "UserId",
+  as: "user",
+});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -1,13 +1,19 @@
 const { Router } = require("express");
 
-// const pokemonsRoutes = require("./pokemonsRoutes");
-// const typeRoutes = require("./typesRoutes");
+const productsRoutes = require("./productsRoutes.js");
+const cateRouter = require("./categoriesRoutes.js");
+const usersRouter = require("./usersRoutes.js");
+const offerRouter = require("./offerRoutes.js")
+const designsRouter = require("./designsRoutes.js")
 
 // router initializated
 const mainRouter = Router();
 
 //router paths moduls
-// mainRouter.use("/pokemon", pokemonsRoutes); //modificar
-// mainRouter.use("/type", typeRoutes); //modificar
+mainRouter.use("/products", productsRoutes);
+mainRouter.use("/categories", cateRouter);
+mainRouter.use("/users", usersRouter);
+mainRouter.use("/offer", offerRouter);
+mainRouter.use("/designs", designsRouter);
 
 module.exports = mainRouter;
