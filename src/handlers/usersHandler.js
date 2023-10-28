@@ -1,6 +1,7 @@
 const {
   registerUser_Controller,
   loginUser_Controller,
+  getUser_Controller,
 } = require("../controllers/users/usersController.js");
 
 const registerUser_Handler = async (req, res) => {
@@ -29,11 +30,31 @@ const loginUser_Handler = async (req, res) => {
     if (!result) throw new Error("No pudo loguearse");
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message,
+      authenticated: false,
+      token: null,
+      user: null, });
+  }
+};
+
+const getUser_Handler = async (req, res) => {
+  const token = req.headers.authorization;
+  try {
+      const user = await getUser_Controller(token);
+      if (!user) throw new Error("Error al actualizar la información del usuario");
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(401).json({
+          error: error.message,
+          authenticated: false,
+          token: null,
+          user: null,
+      });
   }
 };
 
 module.exports = {
   registerUser_Handler,
   loginUser_Handler,
+  getUser_Handler,
 };
