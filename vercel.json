@@ -6,26 +6,10 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "methods": [
-        "OPTIONS",
-        "PUT",
-        "POST",
-        "DELETE",
-        "GET",
-        "PATCH"
-      ],
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS",
-        "Access-Control-Allow-Headers": "*"
-      }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
