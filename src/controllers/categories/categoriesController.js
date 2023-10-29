@@ -1,5 +1,5 @@
 const { Category } = require("../../db");
-const categoriesJson = require("../../../json/categories.json");
+const categoriesJson = require("../../utils/json/categories.json");
 const { Op } = require("sequelize");
 
 const getCategories_Controller = async () => {

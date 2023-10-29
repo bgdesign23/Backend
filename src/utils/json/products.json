@@ -26,7 +26,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa oficina amplia negra"
         },
         {
             "id": "4a58ec2d-79e5-4a49-bfcd-2d3b5dcb56c0",
@@ -40,7 +40,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 3,
-            "hashtag": "algo"
+            "hashtag": "sofá elegante confortable blanco"
         },
         {
             "id": "3f2c3e1a-8f17-4f93-998f-3d8e93d0f0ae",
@@ -54,21 +54,21 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 4,
-            "hashtag": "algo"
+            "hashtag": "escritorio oficina largo trabajo amplio"
         },
         {
             "id": "8c9b11a6-4e3d-4f3b-ae69-1a77c2e2d228",
             "name": "Cama King Size",
-            "description": "Mesa espaciosa con acabado pulido.",
-            "type": "Oficina",
+            "description": "Cama de tamaño king, ideal para un descanso amplio y confortable.",
+            "type": "Hogar",
             "material": "Roble",
-            "price": 2500,
+            "price": 6500,
             "stock": "En Stock",
             "image": "https://i.pinimg.com/originals/f7/d0/1c/f7d01c1d147c8996b67e6167cf3f6020.jpg",
             "color": "Blanco",
             "offer": false,
             "CategoryId": 5,
-            "hashtag": "algo"
+            "hashtag": "cama king size amplia hogar descanso"
         },
         {
             "id": "613fd3f7-0b60-4267-80e3-872b3e192b1a",
@@ -82,7 +82,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 6,
-            "hashtag": "algo"
+            "hashtag": "librero alto almacenamiento comercial libros"
         },
         {
             "id": "b4cd71d3-93bc-4f36-9b8d-46c1f6a0ec33",
@@ -96,7 +96,7 @@
             "color": "Azul",
             "offer": false,
             "CategoryId": 7,
-            "hashtag": "algo"
+            "hashtag": "butaca reclinable descanso hogareño confort"
         },
         {
             "id": "f1d2e5f1-186f-4344-9b86-012eabc04f87",
@@ -110,7 +110,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa ratona sala hogareño centro"
         },
         {
             "id": "42f5a789-76c7-41f9-a734-7b0c764e3190",
@@ -124,7 +124,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 3,
-            "hashtag": "algo"
+            "hashtag": "sillón confort comercial espera relax"
         },
         {
             "id": "d3e08161-012e-41c4-92d3-ff2186e5c48e",
@@ -138,7 +138,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 8,
-            "hashtag": "algo"
+            "hashtag": "estantería oficina almacenamiento libros organización"
         },
         {
             "id": "8a33d0e5-17b6-4212-b7b1-d43b4d2d15e5",
@@ -152,7 +152,7 @@
             "color": "Marrón",
             "offer": true,
             "CategoryId": 9,
-            "hashtag": "algo"
+            "hashtag": "banquito bajo hogareño compacto asiento"
         },
         {
             "id": "c29f824e-7c5e-4fb2-88f1-964897822079",
@@ -166,7 +166,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 10,
-            "hashtag": "algo"
+            "hashtag": "armario grande hogareño ropa almacenamiento"
         },
         {
             "id": "62a7437a-af0d-4fbb-b55a-ebbf0315234e",
@@ -180,7 +180,7 @@
             "color": "Negro",
             "offer": false,
             "CategoryId": 1,
-            "hashtag": "algo"
+            "hashtag": "silla bar alta comercial mostrador"
         },
         {
             "id": "0a6cb8c0-106a-46e4-b43a-e7e3e8d6b77f",
@@ -194,7 +194,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 4,
-            "hashtag": "algo"
+            "hashtag": "escritorio oficina trabajo moderno espacioso"
         },
         {
             "id": "cbbe7541-02f3-4b5d-ba4f-773fb4b5d63b",
@@ -208,7 +208,7 @@
             "color": "Celeste",
             "offer": false,
             "CategoryId": 11,
-            "hashtag": "algo"
+            "hashtag": "ropero vintage almacenamiento hogar espacioso"
         },
         {
             "id": "c5a0df9d-6979-4a34-8d05-217a56b94e02",
@@ -222,7 +222,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 1,
-            "hashtag": "algo"
+            "hashtag": "silla giratoria oficina ergonómica trabajo"
         },
         {
             "id": "8f128be3-d72e-43a1-b6f3-2ab458b95e16",
@@ -236,7 +236,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 14,
-            "hashtag": "algo"
+            "hashtag": "sofá cama convertible hogar práctico"
         },
         {
             "id": "9c7b235a-dfeb-4b17-8d3d-72a567db18fc",
@@ -250,7 +250,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa redonda comercial espera centro"
         },
         {
             "id": "0f631e04-2a17-46f8-9aeb-bff4bf4d5d4a",
@@ -264,7 +264,7 @@
             "color": "Blanco",
             "offer": true,
             "CategoryId": 8,
-            "hashtag": "algo"
+            "hashtag": "repisa flotante pared hogareño decorativa"
         },
         {
             "id": "3c8db036-23ef-49b6-aece-cbc7b36b2a4a",
@@ -278,7 +278,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 3,
-            "hashtag": "algo"
+            "hashtag": "sillón ejecutivo oficina cómodo profesional"
         },
         {
             "id": "c2b41d8d-7644-464e-8f9b-3e05244fc3ff",
@@ -292,7 +292,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa comedor rústica hogareño"
         },
         {
             "id": "23aa3a7f-8aa9-4545-bb68-9b0e6b6b6b8a",
@@ -306,7 +306,7 @@
             "color": "Negro",
             "offer": false,
             "CategoryId": 14,
-            "hashtag": "algo"
+            "hashtag": "sofá cuero elegante hogareño"
         },
         {
             "id": "9b82c03b-902d-439b-aeab-2b9230b902eb",
@@ -320,7 +320,7 @@
             "color": "Negro",
             "offer": true,
             "CategoryId": 12,
-            "hashtag": "algo"
+            "hashtag": "lámpara pie moderna iluminación"
         },
         {
             "id": "1e9f8f9c-58b3-4b96-bd0a-5432cbb5fb4e",
@@ -334,7 +334,7 @@
             "color": "Transparente",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa centro cristal hogareño"
         },
         {
             "id": "678af2f3-c06d-42b7-920e-e24f35cc27f2",
@@ -348,7 +348,7 @@
             "color": "Blanco",
             "offer": true,
             "CategoryId": 4,
-            "hashtag": "algo"
+            "hashtag": "escritorio plegable oficina trabajo"
         },
         {
             "id": "f8e7cd20-2334-41c3-90d6-5cf5d8ce18b7",
@@ -362,7 +362,7 @@
             "color": "Marrón",
             "offer": true,
             "CategoryId": 1,
-            "hashtag": "algo"
+            "hashtag": "silla comedor clásica hogareño"
         },
         {
             "id": "62c9cced-6e3d-4ec0-8f12-1b60b1f8c77c",
@@ -376,7 +376,7 @@
             "color": "Blanco",
             "offer": false,
             "CategoryId": 13,
-            "hashtag": "algo"
+            "hashtag": "cómoda dormitorio organización hogareño"
         },
         {
             "id": "3c0b535c-dac7-45b3-a1f4-0f787c0b4d75",
@@ -390,7 +390,7 @@
             "color": "Marrón",
             "offer": true,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa estudio infantil niños"
         },
         {
             "id": "a4e5e96b-4d68-4568-9d3c-3c9f9e178f21",
@@ -404,7 +404,7 @@
             "color": "Verde",
             "offer": false,
             "CategoryId": 14,
-            "hashtag": "algo"
+            "hashtag": "sofá seccional tela hogareño"
         },
         {
             "id": "b9d49f61-0630-4ce0-b5e7-07b148ed1d06",
@@ -418,7 +418,7 @@
             "color": "Natural",
             "offer": true,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa centro madera hogareño"
         },
         {
             "id": "2c41b52e-b774-4e3f-935b-c132d11f67aa",
@@ -432,7 +432,7 @@
             "color": "Negro",
             "offer": true,
             "CategoryId": 4,
-            "hashtag": "algo"
+            "hashtag": "escritorio pie ajustable oficina"
         },
         {
             "id": "d433041d-1b6b-43f7-ae2c-37b7d886a888",
@@ -446,7 +446,7 @@
             "color": "Blanco",
             "offer": true,
             "CategoryId": 1,
-            "hashtag": "algo"
+            "hashtag": "silla comedor moderna hogareño"
         },
         {
             "id": "f4f66e03-2c7a-4e21-b2c8-8e17a13d079f",
@@ -460,7 +460,7 @@
             "color": "Gris",
             "offer": false,
             "CategoryId": 10,
-            "hashtag": "algo"
+            "hashtag": "armario exhibición iluminación LED comercial"
         },
         {
             "id": "7c879b22-7fc6-492b-9c7e-84ee55fb14eb",
@@ -474,7 +474,7 @@
             "color": "Natural",
             "offer": false,
             "CategoryId": 5,
-            "hashtag": "algo"
+            "hashtag": "cama litera niños divertida"
         },
         {
             "id": "4dbf61ae-5c74-459f-bac0-e80bf6a30f75",
@@ -488,7 +488,7 @@
             "color": "Marrón",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa bar alta comercial"
         },
         {
             "id": "3f5562a7-cf6d-4dd9-8394-1efed3dcead0",
@@ -502,7 +502,7 @@
             "color": "Marrón",
             "offer": true,
             "CategoryId": 13,
-            "hashtag": "algo"
+            "hashtag": "cómoda vintage organización hogareño"
         },
         {
             "id": "e64bcf32-80b7-44b0-8dd5-3d7e438e2b1f",
@@ -516,7 +516,7 @@
             "color": "Gris",
             "offer": true,
             "CategoryId": 1,
-            "hashtag": "algo"
+            "hashtag": "silla oficina ergonómica comercial"
         },
         {
             "id": "8df9dd93-6aa4-497f-8132-d14c0a66ddcb",
@@ -530,7 +530,7 @@
             "color": "Crema",
             "offer": false,
             "CategoryId": 3,
-            "hashtag": "algo"
+            "hashtag": "sillón reclinable masajeador hogareño"
         },
         {
             "id": "8e5a1d19-8a70-4f8f-8f51-6a1c8cb14a42",
@@ -544,7 +544,7 @@
             "color": "Natural",
             "offer": false,
             "CategoryId": 4,
-            "hashtag": "algo"
+            "hashtag": "escritorio industrial oficina"
         },
         {
             "id": "47b454f6-2d68-4ef2-915f-743d2c37f4f8",
@@ -558,7 +558,7 @@
             "color": "Transparente",
             "offer": false,
             "CategoryId": 2,
-            "hashtag": "algo"
+            "hashtag": "mesa conferencia vidrio comercial"
         }
     ]
 }
