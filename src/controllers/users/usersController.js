@@ -79,6 +79,7 @@ const loginUser_Controller = async (email, password) => {
       email: foundUser.email,
       password: foundUser.password,
       image: foundUser.image,
+      role: foundUser.role,
     };
 
     const token = await signToken({user: foundUser.dataValues}, process.env.JWT_SECRET, {expiresIn: '24h'})
