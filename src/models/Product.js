@@ -69,6 +69,14 @@ module.exports = (sequelize) => {
       hashtag: {
         type: DataTypes.STRING,
       },
+      amount: {
+        //cantidad de productos
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        validate: {
+          min: 1,
+        },
+      },
     },
     { timestamps: false }
   );
