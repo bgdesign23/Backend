@@ -11,9 +11,12 @@ const fillUsers = async () => {
 
     if (!allUsers.length) {
       let newUsers = usersJson.users;
-      
+
       for (let i = 0; i < newUsers.length; i++) {
-        const hashedPassword = await bcrypt.hash(newUsers[i].password, saltRounds);
+        const hashedPassword = await bcrypt.hash(
+          newUsers[i].password,
+          saltRounds
+        );
         await User.create({
           id: newUsers[i].id,
           username: newUsers[i].username,
@@ -70,6 +73,7 @@ const fillProducts = async () => {
           color: products[i].color,
           offer: products[i].offer,
           hashtag: products[i].hashtag,
+          amount: products[i].amount, //cantidad
         });
       }
     }
@@ -119,4 +123,10 @@ const fillDesigns = async () => {
   }
 };
 
-module.exports = { fillUsers, fillCategories, fillProducts, setCategories, fillDesigns };
+module.exports = {
+  fillUsers,
+  fillCategories,
+  fillProducts,
+  setCategories,
+  fillDesigns,
+};
