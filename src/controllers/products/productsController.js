@@ -87,6 +87,7 @@ const createNewProduct_controller = async (data, image) => {
       stock: data.stock,
       image: image,
       color: data.color,
+      amount: data.amount,
     };
     const newProduct = await Product.create(productObj);
 
