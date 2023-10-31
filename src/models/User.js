@@ -49,8 +49,8 @@ module.exports = (sequelize) => {
       isDisabled: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-    }
+      },
     },
-    { timestamps: false }
+    { paranoid: true }
   );
 };
