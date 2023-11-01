@@ -6,6 +6,7 @@ const {
   emailSuccessfulUserActulization,
 } = require("../../utils/nodemailer/emails.js");
 const { Op } = require("sequelize");
+const { passwordGenerator } = require("../../utils/googleUsers/passwordGenerator.js");
 
 const registerUser_Controller = async (
   username,
@@ -118,8 +119,9 @@ const getUser_Controller = async (token) => {
 
 const getAllUsers_Controller = async () => {
   const allUsers = await User.findAll();
-  if (!allUsers.length) throw new Error("No se encontraron usuarios en la base de datos");
-  return allUsers
+  if (!allUsers.length)
+    throw new Error("No se encontraron usuarios en la base de datos");
+  return allUsers;
 };
 
 const getUserByUsername_Controller = async (username) => {
@@ -170,19 +172,20 @@ const updateUser_Controller = async (
     if (!foundUser) throw new Error("No se encontró el usuario a actualizar");
 
     const decoded = await verifyToken(token, process.env.JWT_SECRET);
-    if (!decoded) throw new Error("El token no pertenece al usuario autenticado");
+    if (!decoded)
+      throw new Error("El token no pertenece al usuario autenticado");
 
     if (password !== undefined) {
-      const newPassword = password
+      const newPassword = password;
       const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
-      await foundUser.update({password: hashedNewPassword})
+      await foundUser.update({ password: hashedNewPassword });
     }
 
-    if (username !== undefined) await foundUser.update({username: username})
-    if (phone !== undefined) await foundUser.update({phone: phone})
-    if (location !== undefined) await foundUser.update({location: location})
-    if (email !== undefined) await foundUser.update({email: email})
-    if (image !== undefined) await foundUser.update({image: image})
+    if (username !== undefined) await foundUser.update({ username: username });
+    if (phone !== undefined) await foundUser.update({ phone: phone });
+    if (location !== undefined) await foundUser.update({ location: location });
+    if (email !== undefined) await foundUser.update({ email: email });
+    if (image !== undefined) await foundUser.update({ image: image });
 
     const userUpdated = await User.findOne({ where: { id } });
     if (!userUpdated) throw new Error("No se encontró el usuario actualizado");
@@ -204,6 +207,80 @@ const updateUser_Controller = async (
   }
 };
 
+const googleUser_Controller = async (profile) => {
+  const googleId = profile.id;
+  const username = profile.displayName;
+  const email = profile.emails[0].value;
+  const image = profile.photos[0].value;
+  // const phone = profile.phones[0].value;
+  // const location = profile.locations[0].value;
+
+  const findUser = await User.findOne({
+    where: { email },
+    attributes: { exclude: ["password"] },
+  });
+
+  if (findUser) {
+    if (findUser.googleId) {
+      const token = await signToken(
+        { user: findUser.dataValues },
+        process.env.JWT_SECRET,
+        { expiresIn: "24h" }
+      );
+      return {
+        error: null,
+        authenticated: true,
+        token: token,
+        user: {
+          id: findUser.id,
+          googleId: findUser.googleId,
+          username: findUser.username,
+          email: findUser.email,
+          image: findUser.image,
+        },
+      };
+    } else throw new Error("Ya existe un usuario con ese correo"); // Acá podemos poner para que se verifique en el gmail y se fusionen el gmail registrado sin google con el que se está registrando con google
+  } else {
+    const hashedPassword = await bcrypt.hash(passwordGenerator(), saltRounds);
+    const newUser = await User.create({
+      googleId: googleId,
+      username: username,
+      phone: "Sin especificar",
+      location: "Sin especificar",
+      email: email,
+      password: hashedPassword,
+      image: image,
+    });
+
+    const token = await signToken(
+      { user: newUser.dataValues },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    await emailSuccessfulRegistration(
+      { username: newUser.username, email: newUser.email },
+      token
+    );
+
+    const userData = await User.findOne({ where: { id: newUser.id } });
+
+    return {
+      error: null,
+      authenticated: true,
+      token: token,
+      user: {
+        id: userData.id,
+        googleId: userData.googleId,
+        username: userData.username,
+        email: userData.email,
+        image: userData.image,
+        role: userData.role,
+      },
+    };
+  }
+};
+
 module.exports = {
   registerUser_Controller,
   loginUser_Controller,
@@ -213,5 +290,6 @@ module.exports = {
   getUserById_Controller,
   deleteUser_Controller,
   restoreUser_Controller,
-  updateUser_Controller
+  updateUser_Controller,
+  googleUser_Controller
 };
