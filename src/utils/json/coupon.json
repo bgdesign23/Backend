@@ -1,0 +1,11 @@
+{
+    "coupon": [
+        {
+            "status": "activo",
+            "expiration": "2023-12-31",
+            "discount": "0.20",
+            "usagesAvailable": "1",
+            "code": "bgdesign"
+        }
+    ]
+}

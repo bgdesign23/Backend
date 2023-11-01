@@ -12,7 +12,7 @@ const {
 } = require("./src/utils/fillDB.js");
 
 // Syncing all the models at once.//configuracion inicial
-conn.sync({ alter: true }).then(() => {
+conn.sync({ force: true }).then(() => {
   console.log("Database connected");
   server.listen(PORT, async () => {
     await Promise.all([fillUsers(), fillCategories(), fillProducts(), fillDesigns()]);

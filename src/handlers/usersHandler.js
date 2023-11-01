@@ -14,7 +14,7 @@ const registerUser_Handler = async (req, res) => {
       location,
       email,
       password,
-      image
+      image,
     );
     if (!result) throw new Error("El usuario no pudo crearse");
     return res.status(200).json(result);

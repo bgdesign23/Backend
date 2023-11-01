@@ -10,11 +10,11 @@ const { DB_URL } = process.env;
 const sequelize = new Sequelize(DB_URL, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  dialectOptions: {
-    ssl: {
-      require: true,
-    },
-  },
+  // dialectOptions: {
+  //   ssl: {
+  //     require: true,
+  //   },
+  // },
   dialect: "postgres",
   protocol: "postgres",
   dialectModule: pg,
@@ -47,7 +47,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // in sequelize.models there are all models imported as properties
 // to relate we do a destructuring
 
-const { Product, Category, User, Offer, Design } = sequelize.models;
+const { Product, Category, User, Offer, Design, Coupon } = sequelize.models;
 
 // Here the relationships would come
 // Product.hasMany(Reviews);
@@ -74,6 +74,12 @@ User.hasMany(Design, { as: "designs" });
 Design.belongsTo(User, {
   foreignKey: "UserId",
   as: "user",
+});
+
+User.hasMany(Coupon, { as: "coupons"});
+Coupon.belongsTo(User, {
+  foreignKey: "UserId",
+  as: "user", 
 });
 
 module.exports = {
