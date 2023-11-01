@@ -11,7 +11,7 @@ const {
   googleUser_Controller,
 } = require("../controllers/users/usersController.js");
 
-// const frontUrl = process.env.FRONT_URL || "http://localhost:5173";
+const frontUrl = process.env.FRONT_URL || "http://localhost:5173";
 
 const registerUser_Handler = async (req, res) => {
   const { username, phone, location, email, password } = req.body;
@@ -147,7 +147,7 @@ const googleUser_Handler = async (req, res) => {
             window.onload = function() {
               window.opener.postMessage({type: 'AUTH_SUCCESS', payload: ${JSON.stringify(
                 result
-              )}}, 'https://blackgroupdesing.vercel.app');
+              )}}, '${frontUrl}');
               window.close();
             };
           </script>
@@ -167,7 +167,7 @@ const googleUser_Handler = async (req, res) => {
                   token: null,
                   user: null,
                 }
-              )}}, 'https://blackgroupdesing.vercel.app');
+              )}}, '${frontUrl}');
               window.close();
             };
           </script>
