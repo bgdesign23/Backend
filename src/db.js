@@ -1,4 +1,3 @@
-//Data base confi
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
@@ -6,10 +5,9 @@ const pg = require("pg");
 const path = require("path");
 const { DB_URL } = process.env;
 
-//conecting DataBase with our user Postgres//check file .env
 const sequelize = new Sequelize(DB_URL, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  logging: false,
+  native: false,
   dialectOptions: {
     ssl: {
       require: true,
@@ -24,7 +22,6 @@ const basename = path.basename(__filename);
 
 const modelDefiners = [];
 
-// this works to read all models defined in models folder, require and add to modelDefiners array
 fs.readdirSync(path.join(__dirname, "/models"))
   .filter(
     (file) =>
@@ -34,9 +31,7 @@ fs.readdirSync(path.join(__dirname, "/models"))
     modelDefiners.push(require(path.join(__dirname, "/models", file)));
   });
 
-// match conection with each model
 modelDefiners.forEach((model) => model(sequelize));
-// Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [
   entry[0][0].toUpperCase() + entry[0].slice(1),
@@ -44,13 +39,7 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-// in sequelize.models there are all models imported as properties
-// to relate we do a destructuring
-
 const { Product, Category, User, Offer, Design } = sequelize.models;
-
-// Here the relationships would come
-// Product.hasMany(Reviews);
 
 Category.hasMany(Product, { as: "products" });
 Product.belongsTo(Category, {
@@ -77,6 +66,6 @@ Design.belongsTo(User, {
 });
 
 module.exports = {
-  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize, // para importart la conexión { conn } = require('./db.js');
+  ...sequelize.models,
+  conn: sequelize,
 };

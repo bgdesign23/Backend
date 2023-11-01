@@ -7,8 +7,11 @@ const {
   getUserById_Controller,
   deleteUser_Controller,
   restoreUser_Controller,
-  updateUser_Controller
+  updateUser_Controller,
+  googleUser_Controller,
 } = require("../controllers/users/usersController.js");
+
+const frontUrl = process.env.FRONT_URL || "http://localhost:5173";
 
 const registerUser_Handler = async (req, res) => {
   const { username, phone, location, email, password } = req.body;
@@ -49,8 +52,7 @@ const getUser_Handler = async (req, res) => {
   const token = req.headers.authorization;
   try {
     const user = await getUser_Controller(token);
-    if (!user)
-      throw new Error("Error al obtener la información del usuario");
+    if (!user) throw new Error("Error al obtener la información del usuario");
     res.status(200).json(user);
   } catch (error) {
     res.status(401).json({
@@ -108,7 +110,7 @@ const restoreUser_Handler = async (req, res) => {
     const userRestored = await restoreUser_Controller(id);
     res.status(200).json(userRestored);
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -135,6 +137,46 @@ const updateUser_Handler = async (req, res) => {
   }
 };
 
+const googleUser_Handler = async (req, res) => {
+  try {
+    const result = await googleUser_Controller(req.user);
+    res.send(`
+      <html>
+        <body>
+          <script>
+            window.onload = function() {
+              window.opener.postMessage({type: 'AUTH_SUCCESS', payload: ${JSON.stringify(
+                result
+              )}}, '${frontUrl}');
+              window.close();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+  } catch (error) {
+    res.send(`
+      <html>
+        <body>
+          <script>
+            window.onload = function() {
+              window.opener.postMessage({type: 'AUTH_ERROR', payload: ${JSON.stringify(
+                {
+                  error: error.message,
+                  authenticated: false,
+                  token: null,
+                  user: null,
+                }
+              )}}, '${frontUrl}');
+              window.close();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+  }
+};
+
 module.exports = {
   registerUser_Handler,
   loginUser_Handler,
@@ -145,4 +187,5 @@ module.exports = {
   deleteUser_Handler,
   restoreUser_Handler,
   updateUser_Handler,
+  googleUser_Handler,
 };
