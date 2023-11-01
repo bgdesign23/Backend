@@ -7,13 +7,18 @@ const {
   fillCategories,
   fillProducts,
   setCategories,
-  fillDesigns
+  fillDesigns,
 } = require("./src/utils/fillDB.js");
 
 conn.sync({ alter: true }).then(() => {
   console.log("Database connected");
   server.listen(PORT, async () => {
-    await Promise.all([fillUsers(), fillCategories(), fillProducts(), fillDesigns()]);
+    await Promise.all([
+      fillUsers(),
+      fillCategories(),
+      fillProducts(),
+      fillDesigns(),
+    ]);
     await Promise.all([setCategories()]);
     console.log(`Server listening at ${PORT}`);
   });
