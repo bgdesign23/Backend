@@ -31,7 +31,7 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
-server.use(cors(corsOptions));
+server.use(cors());
 
 server.use("/", mainRouter);
 
