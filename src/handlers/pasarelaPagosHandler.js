@@ -46,4 +46,3 @@ const payment_Handler = async (req, res) => {
 };
 
 module.exports = payment_Handler;
-// "id": "1532418958-54a579a6-4583-48ef-9cb6-ae698c07e8d3"

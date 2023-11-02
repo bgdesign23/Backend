@@ -8,11 +8,11 @@ const { DB_URL } = process.env;
 const sequelize = new Sequelize(DB_URL, {
   logging: false,
   native: false,
-  dialectOptions: {
-    ssl: {
-      require: true,
-    },
-  },
+  // dialectOptions: {
+  //   ssl: {
+  //     require: true,
+  //   },
+  // },
   dialect: "postgres",
   protocol: "postgres",
   dialectModule: pg,
@@ -39,7 +39,7 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Product, Category, User, Offer, Design } = sequelize.models;
+const { Product, Category, User, Offer, Design, Coupon } = sequelize.models;
 
 Category.hasMany(Product, { as: "products" });
 Product.belongsTo(Category, {
@@ -61,6 +61,12 @@ Offer.belongsTo(User, {
 
 User.hasMany(Design, { as: "designs" });
 Design.belongsTo(User, {
+  foreignKey: "UserId",
+  as: "user",
+});
+
+User.hasMany(Coupon, { as: "coupons" });
+Coupon.belongsTo(User, {
   foreignKey: "UserId",
   as: "user",
 });

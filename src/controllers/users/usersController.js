@@ -1,4 +1,4 @@
-const { User } = require("../../db.js");
+const { User, Coupon } = require("../../db.js");
 const { signToken, verifyToken } = require("../../middlewares/jwt.js");
 const { bcrypt, saltRounds } = require("../../middlewares/bcrypt.js");
 const {
@@ -40,6 +40,7 @@ const registerUser_Controller = async (
       password: hashedPassword,
       image: image,
     });
+
 
     const token = await signToken(
       { user: newUser.dataValues },
