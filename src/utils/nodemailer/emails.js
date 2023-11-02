@@ -21,6 +21,27 @@ const emailSuccessfulRegistration = async (user) => {
   });
 };
 
+const emailSuccessfulUserActulization = async (user) => {
+  const subject = "Actualización exitosa!";
+
+  const replacements = {
+    username: user.username,
+  };
+
+  const html = await readHTMLFile(
+    __dirname + "/templates/emailSuccessfulUserActulization.html",
+    replacements
+  );
+
+  await transporter.sendMail({
+    from: '"Black Group Design" <noreply@blackgroupdesign.com>',
+    to: `${user.email}`,
+    subject: subject,
+    html: html,
+  });
+};
+
 module.exports = {
   emailSuccessfulRegistration,
+  emailSuccessfulUserActulization
 };
