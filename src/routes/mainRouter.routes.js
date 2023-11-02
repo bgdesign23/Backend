@@ -5,7 +5,7 @@ const cateRouter = require("./categoriesRoutes.js");
 const usersRouter = require("./usersRoutes.js");
 const offerRouter = require("./offerRoutes.js");
 const designsRouter = require("./designsRoutes.js");
-const pasarelaRouter = require("./pasarelaPagosRoute.js");
+const pasarelaPagos_Router = require("./pasarelaPagosRoute.js");
 
 // router initializated
 const mainRouter = Router();
@@ -16,6 +16,6 @@ mainRouter.use("/categories", cateRouter);
 mainRouter.use("/users", usersRouter);
 mainRouter.use("/offer", offerRouter);
 mainRouter.use("/designs", designsRouter);
-mainRouter.use("/payment", pasarelaRouter);
+mainRouter.use("/payment", pasarelaPagos_Router);
 
 module.exports = mainRouter;

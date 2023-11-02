@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 mercadopago.configure({
-  access_Token: process.env.ACCESS_TOKEN,
+  access_token: process.env.ACCESS_TOKEN,
 });
 
 const payment_Handler = async (req, res) => {
@@ -15,7 +15,7 @@ const payment_Handler = async (req, res) => {
       description: product.description,
       unit_price: product.price,
       currency_id: "ARS",
-      quantity: product.quantity,
+      quantity: product.amount,
     };
   });
 
@@ -30,11 +30,20 @@ const payment_Handler = async (req, res) => {
       auto_return: "approved",
     };
 
-    const response = await mercadopago.preferences.create(preference);
-    res.status(200).json(response);
+    // const response = await mercadopago.preferences.create(preference);
+    // res.status(200).json(response.response.init_point);
+
+    const result = await mercadopago.preferences
+      .create(preference)
+      .then(function (response) {
+        res.json({
+          id: response.body.id,
+        });
+      });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 module.exports = payment_Handler;
+// "id": "1532418958-54a579a6-4583-48ef-9cb6-ae698c07e8d3"
