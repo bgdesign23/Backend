@@ -65,10 +65,10 @@ Design.belongsTo(User, {
   as: "user",
 });
 
-User.hasMany(Coupon, { as: "coupons"});
+User.hasMany(Coupon, { as: "coupons" });
 Coupon.belongsTo(User, {
   foreignKey: "UserId",
-  as: "user", 
+  as: "user",
 });
 
 module.exports = {
