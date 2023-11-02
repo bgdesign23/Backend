@@ -8,8 +8,8 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3001/users/google/callback",
-      // callbackURL: "https://backend-muebles.vercel.app/users/google/callback",
+      // callbackURL: "http://localhost:3001/users/google/callback",
+      callbackURL: "https://backend-muebles.vercel.app/users/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       return done(null, profile);
