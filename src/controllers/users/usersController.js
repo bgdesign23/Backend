@@ -1,4 +1,4 @@
-const { User, Coupon } = require("../../db.js");
+const { User, Coupon, Cart } = require("../../db.js");
 const { signToken, verifyToken } = require("../../middlewares/jwt.js");
 const { bcrypt, saltRounds } = require("../../middlewares/bcrypt.js");
 const {
@@ -6,7 +6,9 @@ const {
   emailSuccessfulUserActulization,
 } = require("../../utils/nodemailer/emails.js");
 const { Op } = require("sequelize");
-const { passwordGenerator } = require("../../utils/googleUsers/passwordGenerator.js");
+const {
+  passwordGenerator,
+} = require("../../utils/googleUsers/passwordGenerator.js");
 
 const registerUser_Controller = async (
   username,
@@ -41,7 +43,6 @@ const registerUser_Controller = async (
       image: image,
     });
 
-
     const token = await signToken(
       { user: newUser.dataValues },
       process.env.JWT_SECRET,
@@ -70,8 +71,22 @@ const loginUser_Controller = async (email, password) => {
     if (!email || !password) throw new Error("Falta información requerida");
     if (!/\S+@\S+\.\S+/.test(email)) throw new Error("Email inválido");
 
-    const foundUser = await User.findOne({ where: { email } });
-    if (!foundUser) throw new Error("Usuario no encontrado");
+    const existUser = await User.findOne({ where: { email } });
+    if (!existUser) throw new Error("Usuario no encontrado");
+
+    const findUser = await User.findOne({
+      where: { email },
+      include: {
+        model: Cart,
+        as: "carts",
+        where: {
+          status: "saved",
+        },
+      },
+    });
+
+    let foundUser;
+    findUser ? (foundUser = findUser) : (foundUser = existUser);
 
     const comparePassword = await bcrypt.compare(password, foundUser.password);
     if (!comparePassword) throw new Error("Contraseña incorrecta");
@@ -85,6 +100,7 @@ const loginUser_Controller = async (email, password) => {
       password: foundUser.password,
       image: foundUser.image,
       role: foundUser.role,
+      cart: foundUser.carts ? foundUser.carts[0] : [],
     };
 
     const token = await signToken(
@@ -213,8 +229,6 @@ const googleUser_Controller = async (profile) => {
   const username = profile.displayName;
   const email = profile.emails[0].value;
   const image = profile.photos[0].value;
-  // const phone = profile.phones[0].value;
-  // const location = profile.locations[0].value;
 
   const findUser = await User.findOne({
     where: { email },
@@ -228,17 +242,35 @@ const googleUser_Controller = async (profile) => {
         process.env.JWT_SECRET,
         { expiresIn: "24h" }
       );
+
+      const findUserGoogle = await User.findOne({
+        where: { googleId: findUser.googleId },
+        include: {
+          model: Cart,
+          as: "carts",
+          where: {
+            status: "saved",
+          },
+        },
+      });
+
+      let foundUser;
+      findUserGoogle ? (foundUser = findUserGoogle) : (foundUser = findUser);
+
+      const userGoogle = {
+        id: foundUser.id,
+        googleId: foundUser.googleId,
+        username: foundUser.username,
+        email: foundUser.email,
+        image: foundUser.image,
+        cart: foundUser.carts ? foundUser.carts[0] : [],
+      };
+
       return {
         error: null,
         authenticated: true,
         token: token,
-        user: {
-          id: findUser.id,
-          googleId: findUser.googleId,
-          username: findUser.username,
-          email: findUser.email,
-          image: findUser.image,
-        },
+        user: userGoogle,
       };
     } else throw new Error("Ya existe un usuario con ese correo"); // Acá podemos poner para que se verifique en el gmail y se fusionen el gmail registrado sin google con el que se está registrando con google
   } else {
@@ -292,5 +324,5 @@ module.exports = {
   deleteUser_Controller,
   restoreUser_Controller,
   updateUser_Controller,
-  googleUser_Controller
+  googleUser_Controller,
 };
