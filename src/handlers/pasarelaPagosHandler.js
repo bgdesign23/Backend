@@ -1,12 +1,12 @@
 const mercadopago = require("mercadopago");
-const dotenv = require("dotenv");
-dotenv.config();
 const {
   createCart_Controller,
   saveCart_Controller,
 } = require("../controllers/pasarelaPagos/pasarelaPagosController.js");
-// const URL_BASE = process.env.BACK_URL || "http://localhost:3001";
-// const frontUrl = process.env.FRONT_URL || "http://localhost:5173";
+const {
+  BACK_URL,
+  FRONT_URL,
+} = require("../utils/toggleUrl.js");
 
 mercadopago.configure({
   access_token: process.env.ACCESS_TOKEN,
@@ -29,9 +29,9 @@ const payment_Handler = async (req, res) => {
     let preference = {
       items: arrayMap,
       back_urls: {
-        success: `https://backend-muebles.vercel.app/payment/success`,
-        failure: `https://backend-muebles.vercel.app/payment/failure`,
-        pending: `https://backend-muebles.vercel.app/payment/pending`,
+        success: `${BACK_URL}/payment/success`,
+        failure: `${BACK_URL}/payment/failure`,
+        pending: `${BACK_URL}/payment/pending`,
       },
       auto_return: "approved",
     };
@@ -61,7 +61,7 @@ const createCart_Handler = async (req, res) => {
 
 const success_Handler = async (req, res) => {
   try {
-    const clean_url = `https://blackgroupdesing.vercel.app/home/success`;
+    const clean_url = `${FRONT_URL}/home/success`;
     res.redirect(clean_url);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -70,7 +70,7 @@ const success_Handler = async (req, res) => {
 
 const failure_Handler = async (req, res) => {
   try {
-    const clean_url = `https://blackgroupdesing.vercel.app/cartShop`;
+    const clean_url = `${FRONT_URL}/cartShop`;
     res.redirect(clean_url);
   } catch (error) {
     res.status(400).json({ error: error.message });
