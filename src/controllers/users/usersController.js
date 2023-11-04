@@ -1,9 +1,10 @@
-const { User, Coupon, Cart } = require("../../db.js");
+const { User, UserPasswordReset, Cart } = require("../../db.js");
 const { signToken, verifyToken } = require("../../middlewares/jwt.js");
 const { bcrypt, saltRounds } = require("../../middlewares/bcrypt.js");
 const {
   emailSuccessfulRegistration,
   emailSuccessfulUserActulization,
+  emailResetPassword,
 } = require("../../utils/nodemailer/emails.js");
 const { Op } = require("sequelize");
 const {
@@ -314,6 +315,82 @@ const googleUser_Controller = async (profile) => {
   }
 };
 
+const requestPasswordResetUser_Controller = async (email) => {
+  if (!email) throw new Error("Se requiere un correo electrónico.");
+  if (!/\S+@\S+\.\S+/.test(email))
+    throw new Error("Ingresa un correo electrónico válido.");
+
+  const findUser = await User.findOne({ where: { email: email } });
+  if (!findUser)
+    throw new Error(
+      "Lo sentimos. No pudimos identificarte con la información provista."
+    );
+
+  if (findUser.googleId) {
+    return {
+      error: null,
+      message: "Redirigiendo a Google...",
+      redirectUrl: "https://accounts.google.com/",
+    };
+  }
+
+  const token = await signToken(
+    { user: { id: findUser.id, email: findUser.email } },
+    process.env.JWT_SECRET,
+    { expiresIn: "900000" }
+  );
+
+  await UserPasswordReset.create({
+    token: token,
+    UserId: findUser.id,
+  });
+
+  await emailResetPassword(
+    { name: findUser.name, email: findUser.email },
+    token
+  );
+
+  return {
+    error: null,
+    message:
+      "Has solicitado restablecer tu contraseña. Verifica tu correo electrónico.",
+  };
+};
+
+const confirmPasswordResetUser_Controller = async (token, password) => {
+  if (!token || !password)
+    throw new Error("Se requiere un token y una contraseña.");
+  const decoded = await verifyToken(token, process.env.JWT_SECRET);
+  const findUserPasswordReset = await UserPasswordReset.findOne({
+    where: { token: token, UserId: decoded.user.id },
+  });
+  if (!findUserPasswordReset)
+    throw new Error(
+      "No se encontró ninguna solicitud para restablecer la contraseña con este token."
+    );
+
+  const findUser = User.findOne({
+    where: { id: decoded.user.id, email: decoded.user.email },
+  });
+  if (!findUser)
+    throw new Error(
+      "No se encontró ninguna solicitud para restablecer la contraseña con este token."
+    );
+
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  await User.update(
+    { password: hashedPassword },
+    { where: { id: decoded.user.id, email: decoded.user.email } }
+  );
+  await findUserPasswordReset.destroy();
+
+  return {
+    error: null,
+    message: "Se restableció la contraseña exitosamente.",
+  };
+};
+
 module.exports = {
   registerUser_Controller,
   loginUser_Controller,
@@ -325,4 +402,6 @@ module.exports = {
   restoreUser_Controller,
   updateUser_Controller,
   googleUser_Controller,
+  requestPasswordResetUser_Controller,
+  confirmPasswordResetUser_Controller,
 };

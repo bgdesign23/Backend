@@ -41,7 +41,29 @@ const emailSuccessfulUserActulization = async (user) => {
   });
 };
 
+const emailResetPassword = async (user, token) => {
+	const subject = `Recuperar contraseña - Black Group Design`;
+
+	const replacements = {
+		username: user.username,
+		token: token,
+	};
+
+	const html = await readHTMLFile(
+		__dirname + '/templates/emailResetPassword.html',
+		replacements,
+	);
+
+	await transporter.sendMail({
+		from: '"Black Group Design" <noreply@blackgroupdesign.com>',
+		to: `${user.email}`,
+		subject: subject,
+		html: html,
+	});
+};
+
 module.exports = {
   emailSuccessfulRegistration,
-  emailSuccessfulUserActulization
+  emailSuccessfulUserActulization,
+  emailResetPassword
 };
