@@ -13,9 +13,9 @@ const sequelize = new Sequelize(DB_URL, {
       require: true,
     },
   },
-  dialect: "postgres",
+  /* dialect: "postgres",
   protocol: "postgres",
-  dialectModule: pg,
+  dialectModule: pg, */
 });
 
 const basename = path.basename(__filename);
