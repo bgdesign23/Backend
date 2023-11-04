@@ -11,7 +11,9 @@ const {
   deleteUser_Handler,
   restoreUser_Handler,
   updateUser_Handler,
-  googleUser_Handler
+  googleUser_Handler,
+  requestPasswordResetUser_Handler,
+  confirmPasswordResetUser_Handler,
 } = require("../handlers/usersHandler.js");
 
 const { uploadUserCloudinary } = require("../middlewares/cloudinary.js");
@@ -50,5 +52,8 @@ usersRouter.get("/username", getUserByUsername_Handler);
 usersRouter.get("/:id", getUserById_Handler);
 usersRouter.delete("/:id", deleteUser_Handler);
 usersRouter.get("/restore/:id", restoreUser_Handler);
+
+usersRouter.post('/request-password-reset', requestPasswordResetUser_Handler);
+usersRouter.post('/password-reset', confirmPasswordResetUser_Handler);
 
 module.exports = usersRouter;

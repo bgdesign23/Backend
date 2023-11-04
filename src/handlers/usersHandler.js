@@ -11,6 +11,8 @@ const {
   restoreUser_Controller,
   updateUser_Controller,
   googleUser_Controller,
+  requestPasswordResetUser_Controller,
+  confirmPasswordResetUser_Controller,
 } = require("../controllers/users/usersController.js");
 const {
   FRONT_URL,
@@ -180,6 +182,27 @@ const googleUser_Handler = async (req, res) => {
   }
 };
 
+const requestPasswordResetUser_Handler = async (req, res) => {
+	const email = req.body.value;
+	try {
+		const result = await requestPasswordResetUser_Controller(email);
+		res.status(200).json(result);
+	} catch (error) {
+		res.status(400).json({ error: error.message, message: null });
+	}
+};
+
+const confirmPasswordResetUser_Handler = async (req, res) => {
+	const token = req.body.password;
+	const password = req.body.token;
+	try {
+		const result = await confirmPasswordResetUser_Controller(token, password);
+		res.status(200).json(result);
+	} catch (error) {
+		res.status(400).json({ error: error.message, message: null });
+	}
+};
+
 module.exports = {
   registerUser_Handler,
   loginUser_Handler,
@@ -191,4 +214,6 @@ module.exports = {
   restoreUser_Handler,
   updateUser_Handler,
   googleUser_Handler,
+  requestPasswordResetUser_Handler,
+  confirmPasswordResetUser_Handler,
 };
