@@ -1,4 +1,4 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 const PORT = process.env.PORT || 3001;
