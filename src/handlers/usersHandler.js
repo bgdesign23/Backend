@@ -121,8 +121,8 @@ const restoreUser_Handler = async (req, res) => {
 
 const updateUser_Handler = async (req, res) => {
   const token = req.headers.authorization;
-  const { id } = req.params;
-  const { username, phone, location, email, password } = req.body;
+  const { username, phone, location, email } = req.body;
+  const password = req.body.newPassword
   const image = typeof req.file === "object" ? req.file.path : req.body.image;
   try {
     const result = await updateUser_Controller(
@@ -132,7 +132,6 @@ const updateUser_Handler = async (req, res) => {
       email,
       password,
       image,
-      id,
       token
     );
     if (!result) throw new Error("El usuario no pudo actualizarse");

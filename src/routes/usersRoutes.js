@@ -28,7 +28,7 @@ usersRouter.post(
   registerUser_Handler
 );
 usersRouter.put(
-  "/:id",
+  "/",
   uploadUserCloudinary.single("image"),
   updateUser_Handler
 );

@@ -178,20 +178,16 @@ const updateUser_Controller = async (
   email,
   password,
   image,
-  id,
   token
 ) => {
   try {
     if (!token) throw new Error("El servidor no recibió el token necesario");
 
-    if (!id) throw new Error("No se recibió el id del usuario a actualizar");
-
-    const foundUser = await User.findOne({ where: { id } });
-    if (!foundUser) throw new Error("No se encontró el usuario a actualizar");
-
     const decoded = await verifyToken(token, process.env.JWT_SECRET);
     if (!decoded)
       throw new Error("El token no pertenece al usuario autenticado");
+
+    const foundUser = await User.findOne({ where: { id: decoded.user.id } });
 
     if (password !== undefined) {
       const newPassword = password;
@@ -205,7 +201,7 @@ const updateUser_Controller = async (
     if (email !== undefined) await foundUser.update({ email: email });
     if (image !== undefined) await foundUser.update({ image: image });
 
-    const userUpdated = await User.findOne({ where: { id } });
+    const userUpdated = await User.findOne({ where: { id: decoded.user.id } });
     if (!userUpdated) throw new Error("No se encontró el usuario actualizado");
 
     await emailSuccessfulUserActulization(
@@ -346,7 +342,7 @@ const requestPasswordResetUser_Controller = async (email) => {
   });
 
   await emailResetPassword(
-    { name: findUser.name, email: findUser.email },
+    { username: findUser.username, email: findUser.email },
     token
   );
 
