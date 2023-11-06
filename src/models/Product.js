@@ -70,7 +70,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       amount: {
-        //cantidad de productos
         type: DataTypes.INTEGER,
         defaultValue: 1,
         validate: {
@@ -78,6 +77,6 @@ module.exports = (sequelize) => {
         },
       },
     },
-    { timestamps: false }
+    { paranoid: true }
   );
 };
