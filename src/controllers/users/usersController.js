@@ -3,7 +3,7 @@ const { signToken, verifyToken } = require("../../middlewares/jwt.js");
 const { bcrypt, saltRounds } = require("../../middlewares/bcrypt.js");
 const {
   emailSuccessfulRegistration,
-  emailSuccessfulUserActulization,
+  emailSuccessfulUserActualization,
   emailResetPassword,
 } = require("../../utils/nodemailer/emails.js");
 const { Op } = require("sequelize");
@@ -204,7 +204,7 @@ const updateUser_Controller = async (
     const userUpdated = await User.findOne({ where: { id: decoded.user.id } });
     if (!userUpdated) throw new Error("No se encontró el usuario actualizado");
 
-    await emailSuccessfulUserActulization(
+    await emailSuccessfulUserActualization(
       { username: userUpdated.username, email: userUpdated.email },
       token
     );

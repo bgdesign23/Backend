@@ -21,7 +21,7 @@ const emailSuccessfulRegistration = async (user) => {
   });
 };
 
-const emailSuccessfulUserActulization = async (user) => {
+const emailSuccessfulUserActualization = async (user) => {
   const subject = "Actualización exitosa!";
 
   const replacements = {
@@ -64,6 +64,6 @@ const emailResetPassword = async (user, token) => {
 
 module.exports = {
   emailSuccessfulRegistration,
-  emailSuccessfulUserActulization,
+  emailSuccessfulUserActualization,
   emailResetPassword
 };
