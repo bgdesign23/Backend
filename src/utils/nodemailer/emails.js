@@ -29,7 +29,7 @@ const emailSuccessfulUserActualization = async (user) => {
   };
 
   const html = await readHTMLFile(
-    __dirname + "/templates/emailSuccessfulUserActulization.html",
+    __dirname + "/templates/emailSuccessfulUserActualization.html",
     replacements
   );
 
