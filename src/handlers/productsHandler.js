@@ -4,7 +4,9 @@ const {
   getProducts_By_Id_Controller,
   getProducts_By_Name_Controller,
   postProduct_Rating_controller,
+  deleteProduct_Controller,
   getProducts_By_Hashtag_Controller,
+  restoreProduct_Controller,
 } = require("../controllers/products/productsController");
 
 const { Product } = require("../db");
@@ -80,13 +82,22 @@ const postProduct_handler = async (req, res) => {
 };
 
 const deleteProduct_handler = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    const deleteProduct = await Product.findByPk(id);
-    await deleteProduct.destroy();
-    return res.status(200).json(id);
+    const deleteProduct = await deleteProduct_Controller(id);
+    return res.status(200).json(deleteProduct);
   } catch (error) {
-    return res.status(500).json({ erorr: error.message });
+    return res.status(400).json({ erorr: error.message });
+  }
+};
+
+const restoreProduct_handler = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const restoreProduct = await restoreProduct_Controller(id);
+    return res.status(200).json(restoreProduct);
+  } catch (error) {
+    return res.status(400).json({ erorr: error.message });
   }
 };
 
@@ -108,5 +119,6 @@ module.exports = {
   getProduct_ByName_handler,
   deleteProduct_handler,
   postProduct_Rating_Handler,
+  restoreProduct_handler,
   getProduct_ByHashtag_handler,
 };
