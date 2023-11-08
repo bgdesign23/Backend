@@ -27,16 +27,20 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       price: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          min: 1,
-        },
-      },
+				type: DataTypes.DECIMAL,
+				allowNull: false,
+				validate: {
+					min: 0,
+				},
+			},
       stock: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+				type: DataTypes.INTEGER,
+				allowNull: false,
+        defaultValue: 0,
+				validate: {
+					min: 0,
+				},
+			},
       rating: {
         type: DataTypes.FLOAT,
         defaultValue: 0,
@@ -69,13 +73,10 @@ module.exports = (sequelize) => {
       hashtag: {
         type: DataTypes.STRING,
       },
-      amount: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
-        validate: {
-          min: 1,
-        },
-      },
+      isDisabled: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
+			},
     },
     { paranoid: true }
   );

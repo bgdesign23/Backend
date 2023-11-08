@@ -3,10 +3,19 @@
         {
             "id": "b2e98d0e-f01f-4f55-9e9a-62ba7c24b1b2",
             "username": "bgdesign23",
-            "phone": "123456789",
+            "phone": "+54 555 5555 - 5555",
             "location": "Buenos Aires",
             "email": "bgd.grupo12@gmail.com",
-            "password": "asd123",
+            "password": "123456789",
+            "role": 1
+        },
+        {
+            "id": "2d4dd08e-9a32-4c31-8647-51b15ff26606",
+            "username": "blackgroupdesign",
+            "phone": "+54 555 5555 - 5555",
+            "location": "Narnia",
+            "email": "blackgroupdesign@gmail.com",
+            "password": "123456789",
             "role": 1
         }
     ]

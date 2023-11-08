@@ -1,4 +1,4 @@
-const { User, Cart } = require("../../db.js");
+const { User, Cart, Product } = require("../../db.js");
 const { verifyToken } = require("../../middlewares/jwt.js");
 
 const createCart_Controller = async (cart, token) => {
@@ -22,6 +22,17 @@ const createCart_Controller = async (cart, token) => {
 
     if (savedCart) {
       await savedCart.destroy();
+    }
+
+    const cartArray = JSON.parse(cart[0]);
+    if (cartArray.length) {
+      for (let i = 0; i < cartArray.length; i++) {
+        const foundProduct = await Product.findOne({
+          where: { id: cartArray[i].id },
+        });
+        const newStock = foundProduct.stock - cartArray[i].amount;
+        await foundProduct.update({ stock: newStock });
+      }
     }
 
     const newCart = await Cart.create({
@@ -59,10 +70,16 @@ const saveCart_Controller = async (cart, token) => {
         status: "saved",
       },
     });
-    
-    if (!findCart && (cart[0] == null || JSON.stringify(cart) === JSON.stringify(["[]"]))) {return { error: null, message: "Nada para guardar" };}
 
-    if (findCart && JSON.stringify(cart) === JSON.stringify(["[]"])) await findCart.destroy();
+    if (
+      !findCart &&
+      (cart[0] == null || JSON.stringify(cart) === JSON.stringify(["[]"]))
+    ) {
+      return { error: null, message: "Nada para guardar" };
+    }
+
+    if (findCart && JSON.stringify(cart) === JSON.stringify(["[]"]))
+      await findCart.destroy();
 
     if (!findCart) {
       const saveCart = await Cart.create({
