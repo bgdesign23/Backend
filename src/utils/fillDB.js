@@ -73,7 +73,6 @@ const fillProducts = async () => {
           color: products[i].color,
           offer: products[i].offer,
           hashtag: products[i].hashtag,
-          amount: products[i].amount, //cantidad
         });
       }
     }
