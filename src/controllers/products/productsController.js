@@ -135,6 +135,45 @@ const restoreProduct_Controller = async (id) => {
   return { message: "Producto restaurado con éxito", product };
 };
 
+const updateProduct_Controller = async (
+  id,
+  name,
+  description,
+  type,
+  material,
+  price,
+  stock,
+  color,
+  offer,
+  hashtag
+) => {
+  try {
+    if (!id) throw new Error("El servidor no recibió el ID necesario");
+    const foundProduct = await Product.findOne({ where: { id: id } }); 
+    if (!foundProduct) {
+      throw new Error("No se encontró el producto a actualizar");
+    }
+    if (price !== undefined) {
+      const newPrice = price;
+      await foundProduct.update({ price: newPrice });
+    }
+    if (name !== undefined) await foundProduct.update({ name:name });
+    if (description !== undefined) await foundProduct.update({ description:description });
+    if (type !== undefined) await foundProduct.update({ type:type });
+    if (material !== undefined) foundProduct.update({ material:material });
+    if (stock !== undefined) foundProduct.update({ stock:stock });
+    if (color !== undefined) foundProduct.update({ color:color });
+    if (offer !== undefined) foundProduct.update({ offer:offer });
+    if (hashtag !== undefined) foundProduct.update({ hashtag:hashtag });
+
+    const productUpdated = await Product.findOne({ where: { id: id }});
+    if (!productUpdatedd) throw new Error("No se encontró el producto actualizado");
+    return productUpdated; 
+  } catch (error) {
+    throw new Error(error.message);
+  };
+};
+
 const postProduct_Rating_controller = async (id, newRating) => {
   try {
     let product = await Product.findOne({
@@ -174,4 +213,5 @@ module.exports = {
   deleteProduct_Controller,
   restoreProduct_Controller,
   getProducts_By_Hashtag_Controller,
+  updateProduct_Controller,
 };
