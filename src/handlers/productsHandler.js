@@ -66,7 +66,7 @@ const postProduct_handler = async (req, res) => {
       !data.stock ||
       !data.color
     )
-      return res.status(400).json({ message: "Falta información requerida"});
+      return res.status(400).json({ message: "Falta información requerida" });
 
     const findProduct = await Product.findOne({
       where: { name: data.name.toLowerCase() },
@@ -74,10 +74,13 @@ const postProduct_handler = async (req, res) => {
 
     if (findProduct)
       return res.status(302).json({ message: "Ya existe un producto con ese nombre" });
+    
     const newProduct = await createNewProduct_controller(data, image);
+    
+    // Enviar el producto creado en la respuesta
     return res.json(newProduct);
   } catch (error) {
-    return res.status(500).json({ erorr: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 

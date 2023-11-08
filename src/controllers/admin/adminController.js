@@ -1,5 +1,6 @@
-const { Admin, User } = require("../../db");
+const { Admin, User, Offer } = require("../../db");
 const userJson = require("../../utils/json/users.json");
+const { bcrypt, saltRounds } = require("../../middlewares/bcrypt");
 
 // Trae a los admins;
 const getAdminController = async () => {
@@ -63,9 +64,48 @@ const deleteAdminController = async (id) => {
     } else return false;
 };
 
+// Restaurar un admin;
+const restoreAdminController = async (id) => {
+    const adm = await Admin.findByPk(id, { paranoid: false });
+    if (!adm) throw new Error("No se encontró el admin a restaurar");
+    await adm.restore();
+    return { message: "Admin restaurado con éxito", adm };      
+};
+
+// Modificar un admin;
+const updateAdminController = async (
+    username,
+    phone,
+    location,
+    email,
+    password,
+    id,
+) => {
+    try {
+        if (!id) throw new Error("El servidor no recibió el ID necesario");
+        const foundAdmin = await Admin.findOne({ where: { id: id } }); 
+        if (password !== undefined) {
+            const newPassword = password;
+            await foundAdmin.update({ password: newPassword });
+          } 
+          if (username !== undefined) await foundAdmin.update({ username: username });
+          if (phone !== undefined) await foundAdmin.update({ phone: phone });
+          if (location !== undefined) await foundAdmin.update({ location: location });
+          if (email !== undefined) await foundAdmin.update({ email: email });
+
+          const admUpdated = await Admin.findOne({ where: { id: id } });
+          if (!admUpdated) throw new Error("No se encontró el administrador actualizado");
+          return admUpdated;
+    } catch (error) {
+        throw new Error(error.message);
+    };
+};
+
 module.exports = {
     getAdminController,
     postAdminController,
     getAdminByIdController,
     deleteAdminController,
+    restoreAdminController,
+    updateAdminController,
 }

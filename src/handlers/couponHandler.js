@@ -2,6 +2,8 @@ const {
     createCoupon_Controller,
     getCouponController,
     deleteCouponController,
+    restoreCouponController,
+    updateCouponController,
 } = require("../controllers/coupon/couponController");
 
 const { Coupon } = require("../db");
@@ -55,10 +57,43 @@ const deleteCouponHandler = async (req, res) => {
     return res.status(500).json({ error: error.message });
   };
 };
+// Restaurar un cupon;
+const restoreCouponHandler = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const restored = await restoreCouponController(id);
+    if(restored) return res.status(200).json(restored);
+    return res.status(400).json({error: "Coupon not found"});
+  } catch (error) {
+    res.status(200).json({error:error.message})
+  };
+};
 
+// Modificar un cupon;
+const updateCouponHandler = async (req, res) => {
+  const { status, expiration, discount, usagesAvailable } = req.body;
+  const id = req.params.id; 
+  const code = req.body.newCode;
+  try {
+    const response = await updateCouponController(
+      status,
+      expiration,
+      discount,
+      usagesAvailable,
+      code,
+      id,
+    );
+    if (!response) throw new Error("El cupón no pudo actualizarse");
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  };
+};
   
   module.exports = {
     createCoupon_Handler,
     getCouponHandler,
     deleteCouponHandler,
+    restoreCouponHandler,
+    updateCouponHandler,
   };

@@ -48,6 +48,47 @@ const createCoupon_Controller = async (data, id) => {
   };
 };
 
+// Restaurar un cupon;
+const restoreCouponController = async (id) => {
+  const restored = await Coupon.restore({
+    where: {id}
+});
+if(restored === 1) return "Cupón restaurado con éxito"
+throw Error("No se pudo restaurar el cupón");
+};
+
+// Modificar un cupon;
+const updateCouponController = async (
+  status,
+  expiration,
+  discount,
+  usagesAvailable,
+  code,
+  id  
+) => {
+  try {
+    if (!id) throw new Error("El servidor no recibió el ID necesario"); 
+    const foundCoupon = await Coupon.findOne({ where: { id: id } }); 
+    if (!foundCoupon) {
+      throw new Error("No se encontró el cupón a actualizar");
+    }
+    if (code !== undefined) {
+      const newCode = code;
+      await foundCoupon.update({ code: newCode });
+    }
+    if (status !== undefined) await foundCoupon.update({ status: status });
+    if (expiration !== undefined) await foundCoupon.update({ expiration: expiration });
+    if (discount !== undefined) await foundCoupon.update({ discount: discount });
+    if (usagesAvailable !== undefined) await foundCoupon.update({ usagesAvailable: usagesAvailable });
+
+    const couponUpdated = await Coupon.findOne({ where: { id: id } }); 
+    if (!couponUpdated) throw new Error("No se encontró el cupón actualizado");
+    return couponUpdated; // Devuelve el cupón actualizado
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 // Eliminar un cupon;
 const deleteCouponController = async (id) => {
   if (id) {
@@ -61,4 +102,6 @@ module.exports = {
   createCoupon_Controller,
   getCouponController,
   deleteCouponController,
+  restoreCouponController,
+  updateCouponController,
 };

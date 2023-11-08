@@ -5,18 +5,18 @@ const {
     getOfferByIdHandler,
     deleteOfferHandler, 
     getOfferByNameHandler,
+    restoreOfferHandler,
 } = require("../handlers/offerHandler");
 const offerRouter = Router();
 
-// RUTAS GET;
+// GET;
 offerRouter.get("/", getOfferHandler);
 offerRouter.get("/:id", getOfferByIdHandler);
 offerRouter.get("/search/:title", getOfferByNameHandler);
-
-// RUTA POST;
+offerRouter.get("/restore/:id", restoreOfferHandler);
+// POST;
 offerRouter.post("/create/:id", postOffer_handler);
-
-// RUTA DELETE;
+// DELETE;
 offerRouter.delete("/delete/:id", deleteOfferHandler);
 
 module.exports = offerRouter;

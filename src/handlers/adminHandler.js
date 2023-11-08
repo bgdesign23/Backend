@@ -4,6 +4,8 @@ const {
     postAdminController,
     getAdminByIdController,
     deleteAdminController,
+    restoreAdminController,
+    updateAdminController,
 } = require("../controllers/admin/adminController");
 
 // Obtenemos todos los admins;
@@ -69,9 +71,43 @@ const deleteAdminHandler = async (req, res) => {
     };
 };
 
+// Restaurar un admin;
+const restoreAdminHandler = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const restored = await restoreAdminController(id);
+        return res.status(200).json(restored);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    };
+};
+
+// Modificar un admin;
+const updateAdminHandler = async (req, res) => {
+    const { username, phone, location, email } = req.body;
+    const id = req.params.id;
+    const password = req.body.newPassword;
+    try {
+        const result = await updateAdminController(
+            username,
+            phone,
+            location,
+            email,
+            password,
+            id,
+          );
+          if (!result) throw new Error("El admin no pudo actualizarse"); 
+          return res.status(200).json(result); 
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    };
+};
+
 module.exports = {
     getAdminHandler,
     postAdminHandler,
     getAdminByIdHandler,
     deleteAdminHandler,
+    restoreAdminHandler,
+    updateAdminHandler,
 }

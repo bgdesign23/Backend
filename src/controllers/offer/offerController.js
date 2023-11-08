@@ -84,6 +84,15 @@ const getOfferByIdController = async (id) => {
   }
 }
 
+// Restaurar una oferta;
+const restoreOfferController = async (id) => {
+  const restored = await Offer.restore({
+    where: {id}
+});
+if(restored === 1) return "Oferta restaurada con éxito"
+throw Error("No se pudo restaurar la oferta");
+};
+
 //Eliminar una oferta;
 const deleteOfferController = async (id) => {
   if (id) {
@@ -100,4 +109,5 @@ module.exports = {
     getOfferByIdController,
     deleteOfferController,
     getOfferByNameController,
+    restoreOfferController,
 }

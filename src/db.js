@@ -39,7 +39,7 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Product, Category, User, Offer, Design, Coupon, Cart, UserPasswordReset } = sequelize.models;
+const { Product, Category, User, Offer, Design, Coupon, Cart, UserPasswordReset, Admin } = sequelize.models;
 
 Category.hasMany(Product, { as: "products" });
 Product.belongsTo(Category, {
@@ -79,6 +79,17 @@ Cart.belongsTo(User, {
 
 User.hasOne(UserPasswordReset, { foreignKey: 'UserId' });
 UserPasswordReset.belongsTo(User, { foreignKey: 'UserId' });
+
+Admin.hasMany(Product, { as: "products"});
+Product.belongsTo(Admin, {
+  foreignKey: "AdminId",
+  as: "admin",
+});
+
+Admin.hasMany(User);
+User.belongsTo(Admin);
+
+
 
 module.exports = {
   ...sequelize.models,

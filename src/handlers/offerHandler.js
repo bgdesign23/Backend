@@ -4,6 +4,7 @@ const {
     getOfferByIdController,
     deleteOfferController,
     getOfferByNameController,
+    restoreOfferController,
 } = require("../controllers/offer/offerController");
 
 const { Offer } = require ("../db");
@@ -72,6 +73,18 @@ const deleteOfferHandler = async (req, res) => {
   };
 };
 
+// Restaurar una oferta;
+const restoreOfferHandler = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const restored = await restoreOfferController(id);
+    if(restored) return res.status(200).json(restored);
+    return res.status(400).json({error: "Offer not found"});
+  } catch (error) {
+    res.status(200).json({error:error.message})
+  };
+};
+
 
 module.exports = {
     getOfferHandler,
@@ -79,4 +92,5 @@ module.exports = {
     getOfferByIdHandler,
     deleteOfferHandler,
     getOfferByNameHandler,
+    restoreOfferHandler,
 }

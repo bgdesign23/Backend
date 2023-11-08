@@ -1,13 +1,14 @@
-const { Product, Category } = require("../../db");
+const { Product, Category, Admin } = require("../../db");
 const { Op } = require("sequelize");
 
 const getProducts_controller = async () => {
   const data = await Product.findAll({
-    include: {
-      model: Category,
-      attributes: ["name"],
-      as: "category",
-    },
+    include: 
+      {
+        model: Category,
+        attributes: ["name"],
+        as: "category",
+      },
   });
   if (!data.length) {
     throw new Error("did not find products");
@@ -98,7 +99,7 @@ const createNewProduct_controller = async (data, image) => {
       const lastCategory = await Category.findOne({
         order: [["id", "DESC"]],
       });
-  
+
       let newCategoryId = 1;
       if (lastCategory) {
         newCategoryId = lastCategory.id + 1;
@@ -112,7 +113,9 @@ const createNewProduct_controller = async (data, image) => {
     } else {
       await newProduct.setCategory(catFound);
     }
-    await newProduct.save();
+    
+    // Devolver el producto creado
+    return newProduct;
   } catch (error) {
     throw new Error(error.message);
   }
