@@ -62,8 +62,30 @@ const emailResetPassword = async (user, token) => {
 	});
 };
 
+const emailSuccessfulPurchase = async (user, cart, total) => {
+	const subject = `Gracias por su compra - Black Group Design`;
+	
+  const replacements = {
+		product: JSON.parse(cart.newCart[0]),
+		total: total.total,
+	};
+
+	const html = await readHTMLFile(
+		__dirname + '/templates/emailSuccessfulPurchase.html',
+		replacements,
+	);
+
+	await transporter.sendMail({
+		from: '"Black Group Design" <noreply@blackgroupdesign.com>',
+		to: `${user.email}`,
+		subject: subject,
+		html: html,
+	});
+};
+
 module.exports = {
   emailSuccessfulRegistration,
   emailSuccessfulUserActualization,
-  emailResetPassword
+  emailResetPassword,
+  emailSuccessfulPurchase
 };
