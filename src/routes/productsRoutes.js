@@ -8,6 +8,7 @@ const {
   postProduct_Rating_Handler,
   getProduct_ByHashtag_handler,
   restoreProduct_handler,
+  updateProduct_Handler,
 } = require("../handlers/productsHandler");
 const prodRouter = Router();
 
@@ -30,5 +31,6 @@ prodRouter.post(
 prodRouter.delete("/delete/:id", deleteProduct_handler);
 //PUT
 prodRouter.put("/rating/:id", postProduct_Rating_Handler);
+prodRouter.put("/:id", updateProduct_Handler);
 
 module.exports = prodRouter;

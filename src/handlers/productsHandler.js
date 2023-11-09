@@ -7,6 +7,7 @@ const {
   deleteProduct_Controller,
   getProducts_By_Hashtag_Controller,
   restoreProduct_Controller,
+  updateProduct_Controller,
 } = require("../controllers/products/productsController");
 
 const { Product } = require("../db");
@@ -115,6 +116,30 @@ const postProduct_Rating_Handler = async (req, res) => {
   }
 };
 
+const updateProduct_Handler = async (req, res) => {
+  const { name, type, description, color, material, stock, offer, hashtag } = req.body;
+  const id = req.params.id; 
+  const price = req.body.newPrice;
+  try {
+    const response = await updateProduct_Controller(
+      name,
+      type,
+      description,
+      color,
+      material,
+      stock,
+      price,
+      id,
+      offer,
+      hashtag,
+    )
+    if(!response) throw new Error ("El producto no pudo actualizarse");
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  };
+};
+
 module.exports = {
   getProduct_handler,
   postProduct_handler,
@@ -124,4 +149,5 @@ module.exports = {
   postProduct_Rating_Handler,
   restoreProduct_handler,
   getProduct_ByHashtag_handler,
+  updateProduct_Handler
 };
