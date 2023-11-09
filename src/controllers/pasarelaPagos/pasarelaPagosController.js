@@ -1,5 +1,6 @@
 const { User, Cart, Product } = require("../../db.js");
 const { verifyToken } = require("../../middlewares/jwt.js");
+const { emailSuccessfulPurchase } = require("../../utils/nodemailer/emails.js");
 
 const createCart_Controller = async (cart, token) => {
   try {
@@ -40,6 +41,19 @@ const createCart_Controller = async (cart, token) => {
       status: "success",
     });
     await newCart.setUser(existingUser);
+
+    const productList = JSON.parse(newCart.dataValues.products[0]);
+
+    const totalPurchase = productList.reduce((total, product) => {
+      const productTotal = product.amount * parseFloat(product.price);
+      return total + productTotal;
+    }, 0);
+
+    await emailSuccessfulPurchase(
+      { username: decoded.user.username, email: decoded.user.email },
+      { newCart: newCart.dataValues.products },
+      { total: totalPurchase }
+    );
 
     return {
       error: null,
