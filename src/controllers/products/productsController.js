@@ -1,15 +1,14 @@
-const { Product, Category, Admin, User } = require("../../db");
+const { Product, Category, Admin, User, Cart } = require("../../db");
 const { Op } = require("sequelize");
 const { emailReview } = require("../../utils/nodemailer/emails");
 
 const getProducts_controller = async () => {
   const data = await Product.findAll({
-    include: 
-      {
-        model: Category,
-        attributes: ["name"],
-        as: "category",
-      },
+    include: {
+      model: Category,
+      attributes: ["name"],
+      as: "category",
+    },
   });
   if (!data.length) {
     throw new Error("did not find products");
@@ -108,13 +107,13 @@ const createNewProduct_controller = async (data, image) => {
       const categoryObj = {
         id: newCategoryId,
         name: data.category,
-      }
+      };
       const newCategory = await Category.create(categoryObj);
       await newProduct.setCategory(newCategory);
     } else {
       await newProduct.setCategory(catFound);
     }
-    
+
     // Devolver el producto creado
     return newProduct;
   } catch (error) {
@@ -127,7 +126,7 @@ const deleteProduct_Controller = async (id) => {
   if (!product) throw new Error("No se encontró el producto a eliminar");
   await product.destroy();
   return { message: "Producto eliminado exitosamente" };
-}
+};
 
 const restoreProduct_Controller = async (id) => {
   const product = await Product.findByPk(id, { paranoid: false });
@@ -150,7 +149,7 @@ const updateProduct_Controller = async (
 ) => {
   try {
     if (!id) throw new Error("El servidor no recibió el ID necesario");
-    const foundProduct = await Product.findOne({ where: { id: id } }); 
+    const foundProduct = await Product.findOne({ where: { id: id } });
     if (!foundProduct) {
       throw new Error("No se encontró el producto a actualizar");
     }
@@ -158,60 +157,97 @@ const updateProduct_Controller = async (
       const newPrice = price;
       await foundProduct.update({ price: newPrice });
     }
-    if (name !== undefined) await foundProduct.update({ name:name });
-    if (description !== undefined) await foundProduct.update({ description:description });
-    if (type !== undefined) await foundProduct.update({ type:type });
-    if (material !== undefined) foundProduct.update({ material:material });
-    if (stock !== undefined) foundProduct.update({ stock:stock });
-    if (color !== undefined) foundProduct.update({ color:color });
-    if (offer !== undefined) foundProduct.update({ offer:offer });
-    if (hashtag !== undefined) foundProduct.update({ hashtag:hashtag });
+    if (name !== undefined) await foundProduct.update({ name: name });
+    if (description !== undefined)
+      await foundProduct.update({ description: description });
+    if (type !== undefined) await foundProduct.update({ type: type });
+    if (material !== undefined) foundProduct.update({ material: material });
+    if (stock !== undefined) foundProduct.update({ stock: stock });
+    if (color !== undefined) foundProduct.update({ color: color });
+    if (offer !== undefined) foundProduct.update({ offer: offer });
+    if (hashtag !== undefined) foundProduct.update({ hashtag: hashtag });
 
-    const productUpdated = await Product.findOne({ where: { id: id }});
-    if (!productUpdatedd) throw new Error("No se encontró el producto actualizado");
-    return productUpdated; 
+    const productUpdated = await Product.findOne({ where: { id: id } });
+    if (!productUpdatedd)
+      throw new Error("No se encontró el producto actualizado");
+    return productUpdated;
   } catch (error) {
     throw new Error(error.message);
-  };
+  }
 };
 
-const postProduct_Rating_controller = async (id, newRating, comment, userId) => {
+const postProduct_Rating_controller = async (
+  id,
+  newRating,
+  comment,
+  userId
+) => {
   try {
-    let product = await Product.findOne({
-      where: { id: id },
+    let user = await User.findOne({ where: { id: userId } });
+
+    const getCarts = await Cart.findAll({
+      where: {
+        UserId: userId,
+        status: "success",
+      },
     });
-    let user = await User.findOne({ where: { id: userId}})
-    if (product) {
-      // Actualiza el total de calificaciones y el contador
-      product.totalRating += newRating;
-      product.ratingCount += 1;
 
-      // Calcula el nuevo promedio de calificaciones
-      product.rating = product.ratingCount > 0 ? product.totalRating / product.ratingCount : 0;
+    const findProductInCarts = (id) => {
+      for (const cart of getCarts) {
+        for (const product of cart.products) {
+          const parsedProduct = JSON.parse(product);
+          for (let i = 0; i < parsedProduct.length; i++) {
+            if (parsedProduct[i].id == id) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    };
 
-      // Actualiza los comentarios
-      const generateStarRating = (newRating) => {
-        return stars = '⭐️'.repeat(newRating); // Repite el emoji de estrella según el newRating
-      };
-      const starRatingText = generateStarRating(newRating);
-      product.comments = [...product.comments, `${user.username} ${starRatingText}: ${comment}`]
+    const productInCart = findProductInCarts(id);
 
-      // Guarda el producto actualizado en la base de datos
-      await product.save();
+    if (productInCart) {
+      let product = await Product.findOne({
+        where: { id: id },
+      });
 
-      product.rating = parseInt(product.rating);
+      if (product) {
+        product.totalRating += newRating;
+        product.ratingCount += 1;
+        product.rating =
+          product.ratingCount > 0
+            ? product.totalRating / product.ratingCount
+            : 0;
+            
+        const generateStarRating = (newRating) => {
+          return (stars = "⭐️".repeat(newRating));
+        };
 
-      await emailReview(
-        { username: user.username, email: user.email },
-        { rating: newRating },
-        { comment: comment },
-        { product: product.name}
-      );
-      /* console.log(product); */ // Devuelve el producto actualizado
-      return product;
+        const starRatingText = generateStarRating(newRating);
+        product.comments = [
+          ...product.comments,
+          `${user.username} ${starRatingText}: ${comment}`,
+        ];
+
+        await product.save();
+
+        product.rating = parseInt(product.rating);
+
+        await emailReview(
+          { username: user.username, email: user.email },
+          { rating: newRating },
+          { comment: comment },
+          { product: product.name }
+        );
+
+        return product;
+      } else {
+        throw new Error("Producto no encontrado");
+      }
     } else {
-      // Maneja el caso en el que el producto no se encuentra
-      throw new Error("Producto no encontrado");
+      throw new Error("El usuario no compró el producto");
     }
   } catch (error) {
     throw error;
