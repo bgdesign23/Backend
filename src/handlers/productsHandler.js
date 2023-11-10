@@ -91,7 +91,7 @@ const deleteProduct_handler = async (req, res) => {
     const deleteProduct = await deleteProduct_Controller(id);
     return res.status(200).json(deleteProduct);
   } catch (error) {
-    return res.status(400).json({ erorr: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -101,7 +101,7 @@ const restoreProduct_handler = async (req, res) => {
     const restoreProduct = await restoreProduct_Controller(id);
     return res.status(200).json(restoreProduct);
   } catch (error) {
-    return res.status(400).json({ erorr: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -112,7 +112,7 @@ const postProduct_Rating_Handler = async (req, res) => {
     const review = await postProduct_Rating_controller(id, newRating, comment, userId);
     return res.status(200).json(review);
   } catch (error) {
-    return res.status(500).json({ erorr: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
