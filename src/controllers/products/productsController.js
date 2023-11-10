@@ -1,5 +1,6 @@
-const { Product, Category, Admin } = require("../../db");
+const { Product, Category, Admin, User } = require("../../db");
 const { Op } = require("sequelize");
+const { emailReview } = require("../../utils/nodemailer/emails");
 
 const getProducts_controller = async () => {
   const data = await Product.findAll({
@@ -174,25 +175,38 @@ const updateProduct_Controller = async (
   };
 };
 
-const postProduct_Rating_controller = async (id, newRating) => {
+const postProduct_Rating_controller = async (id, newRating, comment, userId) => {
   try {
     let product = await Product.findOne({
       where: { id: id },
     });
+    let user = await User.findOne({ where: { id: userId}})
     if (product) {
       // Actualiza el total de calificaciones y el contador
       product.totalRating += newRating;
       product.ratingCount += 1;
 
       // Calcula el nuevo promedio de calificaciones
-      product.rating =
-        product.ratingCount > 0 ? product.totalRating / product.ratingCount : 0;
+      product.rating = product.ratingCount > 0 ? product.totalRating / product.ratingCount : 0;
+
+      // Actualiza los comentarios
+      const generateStarRating = (newRating) => {
+        return stars = '⭐️'.repeat(newRating); // Repite el emoji de estrella según el newRating
+      };
+      const starRatingText = generateStarRating(newRating);
+      product.comments = [...product.comments, `${user.username} ${starRatingText}: ${comment}`]
 
       // Guarda el producto actualizado en la base de datos
       await product.save();
 
       product.rating = parseInt(product.rating);
 
+      await emailReview(
+        { username: user.username, email: user.email },
+        { rating: newRating },
+        { comment: comment },
+        { product: product.name}
+      );
       /* console.log(product); */ // Devuelve el producto actualizado
       return product;
     } else {

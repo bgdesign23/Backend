@@ -57,6 +57,10 @@ module.exports = (sequelize) => {
         type: DataTypes.FLOAT,
         defaultValue: 0.0,
       },
+      comments: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        defaultValue: [],
+      },
       image: {
         type: DataTypes.TEXT,
         defaultValue:

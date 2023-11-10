@@ -108,9 +108,9 @@ const restoreProduct_handler = async (req, res) => {
 const postProduct_Rating_Handler = async (req, res) => {
   try {
     const { id } = req.params;
-    const newRating = req.body.newRating;
-    const rating = await postProduct_Rating_controller(id, newRating);
-    return res.status(200).json(rating);
+    const { newRating, comment, userId } = req.body;
+    const review = await postProduct_Rating_controller(id, newRating, comment, userId);
+    return res.status(200).json(review);
   } catch (error) {
     return res.status(500).json({ erorr: error.message });
   }

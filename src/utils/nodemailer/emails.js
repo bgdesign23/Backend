@@ -83,9 +83,33 @@ const emailSuccessfulPurchase = async (user, cart, total) => {
 	});
 };
 
+const emailReview = async (user, review, comment, product) => {
+	const subject = `Producto Valorado - Black Group Design`;
+	
+  const replacements = {
+    username: user.username,
+		rating: review.rating,
+		comment: comment.comment,
+    product: product.product,
+	};
+
+	const html = await readHTMLFile(
+		__dirname + '/templates/emailReview.html',
+		replacements,
+	);
+
+	await transporter.sendMail({
+		from: '"Black Group Design" <noreply@blackgroupdesign.com>',
+		to: `${user.email}`,
+		subject: subject,
+		html: html,
+	});
+};
+
 module.exports = {
   emailSuccessfulRegistration,
   emailSuccessfulUserActualization,
   emailResetPassword,
-  emailSuccessfulPurchase
+  emailSuccessfulPurchase,
+  emailReview
 };
