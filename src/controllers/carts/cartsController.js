@@ -8,9 +8,9 @@ const getAllCarts_Controller = async () => {
   return data;
 };
 
-const getByUserCarts_Controller = async (UserId) => {
-  if (!UserId) throw new Error("El servidor no recibió el id de usuario necesario");
-  const foundCarts = await Cart.findAll({where: {UserId}});
+const getByUserCarts_Controller = async (id) => {
+  if (!id) throw new Error("El servidor no recibió el id de usuario necesario");
+  const foundCarts = await Cart.findAll({where: {status: "success", UserId: id}});
   return {
     error: null,
     carts: foundCarts,

@@ -8,7 +8,7 @@ const {
 const cartsRouter = Router();
 
 cartsRouter.get("/", getAllCarts_Handler);
-cartsRouter.get("/user", getByUserCarts_Handler);
+cartsRouter.get("/user/:id", getByUserCarts_Handler);
 cartsRouter.get("/:id", getByIdCarts_Handler);
 
 module.exports = cartsRouter;
