@@ -10,7 +10,7 @@ const {
   fillDesigns,
 } = require("./src/utils/fillDB.js");
 
-conn.sync({ alter: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   console.log("Database connected");
   server.listen(PORT, async () => {
     await Promise.all([
