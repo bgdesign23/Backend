@@ -143,6 +143,7 @@ const restoreProduct_Controller = async (id) => {
   return { message: "Producto restaurado con éxito", product };
 };
 
+// Modifica un producto;
 const updateProduct_Controller = async (
   id,
   name,
@@ -157,34 +158,47 @@ const updateProduct_Controller = async (
 ) => {
   try {
     if (!id) throw new Error("El servidor no recibió el ID necesario");
+
     const foundProduct = await Product.findOne({ where: { id: id } });
+
     if (!foundProduct) {
       throw new Error("No se encontró el producto a actualizar");
     }
-    if (price !== undefined) {
-      const newPrice = price;
+    if (name !== undefined) {
+      await foundProduct.update({ name: name });
+    }
+    if (description !== undefined) {
+      await foundProduct.update({ description: description });
+    }
+    if (type !== undefined) {
+      await foundProduct.update({ type: type });
+    }
+    if (material !== undefined && typeof material === 'string') {
+      await foundProduct.update({ material: material });
+    }
+    if (price !== undefined && !isNaN(parseFloat(price))) {
+      const newPrice = parseFloat(price);
       await foundProduct.update({ price: newPrice });
     }
-    if (name !== undefined) await foundProduct.update({ name: name });
-    if (description !== undefined)
-      await foundProduct.update({ description: description });
-    if (type !== undefined) await foundProduct.update({ type: type });
-    if (material !== undefined) foundProduct.update({ material: material });
-    if (stock !== undefined) foundProduct.update({ stock: stock });
-    if (color !== undefined) foundProduct.update({ color: color });
-    if (offer !== undefined) foundProduct.update({ offer: offer });
-    if (hashtag !== undefined) foundProduct.update({ hashtag: hashtag });
-
-<<<<<<< Updated upstream
+    if (stock !== undefined) {
+      await foundProduct.update({ stock: stock });
+    }
+    if (color !== undefined) {
+      await foundProduct.update({ color: color });
+    }
+    if (offer !== undefined) {
+      await foundProduct.update({ offer: offer });
+    }
+    if (hashtag !== undefined) {
+      await foundProduct.update({ hashtag: hashtag });
+    }
+    // Obtener el producto actualizado
     const productUpdated = await Product.findOne({ where: { id: id } });
-    if (!productUpdatedd)
+    if (!productUpdated) {
       throw new Error("No se encontró el producto actualizado");
+    }
+
     return productUpdated;
-=======
-    const productUpdated = await Product.findOne({ where: { id: id }});
-    if (!productUpdated) throw new Error("No se encontró el producto actualizado");
-    return productUpdated; 
->>>>>>> Stashed changes
   } catch (error) {
     throw new Error(error.message);
   }
