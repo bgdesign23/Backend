@@ -132,6 +132,7 @@ const updateProduct_Handler = async (req, res) => {
   const price = req.body.newPrice;
   try {
     const response = await updateProduct_Controller(
+      id,
       name,
       type,
       description,
@@ -139,7 +140,6 @@ const updateProduct_Handler = async (req, res) => {
       material,
       stock,
       price,
-      id,
       offer,
       hashtag,
     )

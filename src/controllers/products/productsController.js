@@ -175,10 +175,16 @@ const updateProduct_Controller = async (
     if (offer !== undefined) foundProduct.update({ offer: offer });
     if (hashtag !== undefined) foundProduct.update({ hashtag: hashtag });
 
+<<<<<<< Updated upstream
     const productUpdated = await Product.findOne({ where: { id: id } });
     if (!productUpdatedd)
       throw new Error("No se encontró el producto actualizado");
     return productUpdated;
+=======
+    const productUpdated = await Product.findOne({ where: { id: id }});
+    if (!productUpdated) throw new Error("No se encontró el producto actualizado");
+    return productUpdated; 
+>>>>>>> Stashed changes
   } catch (error) {
     throw new Error(error.message);
   }
