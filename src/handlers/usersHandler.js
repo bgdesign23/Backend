@@ -11,6 +11,7 @@ const {
   restoreUser_Controller,
   updateUser_Controller,
   googleUser_Controller,
+  eliminatedUsers_Controller,
   requestPasswordResetUser_Controller,
   confirmPasswordResetUser_Controller,
 } = require("../controllers/users/usersController.js");
@@ -104,6 +105,15 @@ const deleteUser_Handler = async (req, res) => {
   try {
     const userDeleted = await deleteUser_Controller(id);
     res.status(200).json(userDeleted);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const eliminatedUsers_Handler = async (req, res) => {
+  try {
+    const usersEliminated = await eliminatedUsers_Controller();
+    res.status(200).json(usersEliminated);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -213,6 +223,7 @@ module.exports = {
   restoreUser_Handler,
   updateUser_Handler,
   googleUser_Handler,
+  eliminatedUsers_Handler,
   requestPasswordResetUser_Handler,
   confirmPasswordResetUser_Handler,
 };

@@ -128,6 +128,14 @@ const deleteProduct_Controller = async (id) => {
   return { message: "Producto eliminado exitosamente" };
 };
 
+const eliminatedProducts_Controller = async () => {
+  const eliminatedProducts = await Product.findAll({ paranoid: false, where: { deletedAt: { [Op.not]: null } } });
+  if (!eliminatedProducts || eliminatedProducts.length === 0) {
+    return { message: "No se encontraron productos eliminados" };
+  }
+  return eliminatedProducts;
+};
+
 const restoreProduct_Controller = async (id) => {
   const product = await Product.findByPk(id, { paranoid: false });
   if (!product) throw new Error("No se encontró el producto a restaurar");
@@ -262,6 +270,7 @@ module.exports = {
   postProduct_Rating_controller,
   deleteProduct_Controller,
   restoreProduct_Controller,
+  eliminatedProducts_Controller,
   getProducts_By_Hashtag_Controller,
   updateProduct_Controller,
 };

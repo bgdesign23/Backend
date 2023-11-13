@@ -7,6 +7,7 @@ const {
   deleteProduct_Controller,
   getProducts_By_Hashtag_Controller,
   restoreProduct_Controller,
+  eliminatedProducts_Controller,
   updateProduct_Controller,
 } = require("../controllers/products/productsController");
 
@@ -95,6 +96,15 @@ const deleteProduct_handler = async (req, res) => {
   }
 };
 
+const eliminatedProducts_Handler = async (req, res) => {
+  try {
+    const productsEliminated = await eliminatedProducts_Controller();
+    return res.status(200).json(productsEliminated);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 const restoreProduct_handler = async (req, res) => {
   const { id } = req.params;
   try {
@@ -148,6 +158,7 @@ module.exports = {
   deleteProduct_handler,
   postProduct_Rating_Handler,
   restoreProduct_handler,
+  eliminatedProducts_Handler,
   getProduct_ByHashtag_handler,
   updateProduct_Handler
 };
