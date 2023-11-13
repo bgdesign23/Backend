@@ -164,6 +164,14 @@ const deleteUser_Controller = async (id) => {
   return { message: "Usuario eliminado correctamente" };
 };
 
+const eliminatedUsers_Controller = async () => {
+  const eliminatedUsers = await User.findAll({ paranoid: false, where: { deletedAt: { [Op.not]: null } } });
+  if (!eliminatedUsers || eliminatedUsers.length === 0) {
+    return { message: "No se encontraron usuarios eliminados" };
+  }
+  return eliminatedUsers;
+};
+
 const restoreUser_Controller = async (id) => {
   const user = await User.findByPk(id, { paranoid: false });
   if (!user) throw new Error("No se encontró el usuario a restaurar");
@@ -404,6 +412,7 @@ module.exports = {
   restoreUser_Controller,
   updateUser_Controller,
   googleUser_Controller,
+  eliminatedUsers_Controller,
   requestPasswordResetUser_Controller,
   confirmPasswordResetUser_Controller,
 };

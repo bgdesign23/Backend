@@ -12,6 +12,7 @@ const {
   restoreUser_Handler,
   updateUser_Handler,
   googleUser_Handler,
+  eliminatedUsers_Handler,
   requestPasswordResetUser_Handler,
   confirmPasswordResetUser_Handler,
 } = require("../handlers/usersHandler.js");
@@ -51,8 +52,8 @@ usersRouter.get("/", getAllUsers_Handler);
 usersRouter.get("/username", getUserByUsername_Handler);
 usersRouter.get("/:id", getUserById_Handler);
 usersRouter.delete("/:id", deleteUser_Handler);
+usersRouter.get("/restore/eliminated", eliminatedUsers_Handler);
 usersRouter.get("/restore/:id", restoreUser_Handler);
-
 usersRouter.post('/request-password-reset', requestPasswordResetUser_Handler);
 usersRouter.post('/password-reset', confirmPasswordResetUser_Handler);
 
