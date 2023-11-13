@@ -126,28 +126,34 @@ const postProduct_Rating_Handler = async (req, res) => {
   }
 };
 
+// Modifica un producto;
 const updateProduct_Handler = async (req, res) => {
   const { name, type, description, color, material, stock, offer, hashtag } = req.body;
   const id = req.params.id; 
-  const price = req.body.newPrice;
+  const price = req.body.price;
+
   try {
     const response = await updateProduct_Controller(
       id,
       name,
-      type,
       description,
-      color,
+      type,
       material,
-      stock,
       price,
+      stock,
+      color,
       offer,
       hashtag,
-    )
-    if(!response) throw new Error ("El producto no pudo actualizarse");
+    );
+
+    if (!response) {
+      throw new Error("El producto no pudo actualizarse");
+    }
+
     return res.status(200).json(response);
   } catch (error) {
     return res.status(400).json({ error: error.message });
-  };
+  }
 };
 
 module.exports = {
