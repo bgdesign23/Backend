@@ -5,12 +5,14 @@ const {
     deleteCouponHandler,
     restoreCouponHandler,
     updateCouponHandler,
+    eliminatedCouponHandler,
 } = require ("../handlers/couponHandler");
 const couponRouter = Router();
 
 // GET
 couponRouter.get("/", getCouponHandler);
 couponRouter.get("/restore/:id", restoreCouponHandler);
+couponRouter.get("/eliminated", eliminatedCouponHandler);
 // POST
 couponRouter.post("/create", createCoupon_Handler);
 // PUT

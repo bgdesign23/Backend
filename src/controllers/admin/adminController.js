@@ -1,5 +1,6 @@
 const { Admin, User, Offer } = require("../../db");
 const userJson = require("../../utils/json/users.json");
+const { Op } = require("sequelize");
 const { bcrypt, saltRounds } = require("../../middlewares/bcrypt");
 
 // Trae a los admins;
@@ -54,14 +55,21 @@ const getAdminByIdController = async (id) => {
    return adm; 
 };
 
+// Almacena los admins eliminados;
+const eliminatedAdminController = async () => {
+    const eliminatedAdmin = await Admin.findAll({ paranoid: false, where: { deletedAt: { [Op.not]: null } } });
+    if (!eliminatedAdmin || eliminatedAdmin.length === 0) {
+      return { message: "No se encontraron administradores eliminados" };
+    }
+    return eliminatedAdmin;
+  };
+
 // Eliminar un administrador;
 const deleteAdminController = async (id) => {
-    if (id) {
-        const data = await Admin.destroy({ where: {
-            id: id
-        }});
-        return true;
-    } else return false;
+  const admin = await Admin.findByPk(id);
+  if (!admin) throw new Error("No se encontró el administrador a eliminar");
+  await admin.destroy();
+  return { message: "Administrador eliminado exitosamente" };
 };
 
 // Restaurar un admin;
@@ -108,4 +116,5 @@ module.exports = {
     deleteAdminController,
     restoreAdminController,
     updateAdminController,
+    eliminatedAdminController,
 }
