@@ -21,7 +21,7 @@ const emailSuccessfulRegistration = async (user) => {
   });
 };
 
-const emailSuccessfulUserActulization = async (user) => {
+const emailSuccessfulUserActualization = async (user) => {
   const subject = "Actualización exitosa!";
 
   const replacements = {
@@ -29,7 +29,7 @@ const emailSuccessfulUserActulization = async (user) => {
   };
 
   const html = await readHTMLFile(
-    __dirname + "/templates/emailSuccessfulUserActulization.html",
+    __dirname + "/templates/emailSuccessfulUserActualization.html",
     replacements
   );
 
@@ -62,8 +62,54 @@ const emailResetPassword = async (user, token) => {
 	});
 };
 
+const emailSuccessfulPurchase = async (user, cart, total) => {
+	const subject = `Gracias por su compra - Black Group Design`;
+	
+  const replacements = {
+		product: JSON.parse(cart.newCart[0]),
+		total: total.total,
+	};
+
+	const html = await readHTMLFile(
+		__dirname + '/templates/emailSuccessfulPurchase.html',
+		replacements,
+	);
+
+	await transporter.sendMail({
+		from: '"Black Group Design" <noreply@blackgroupdesign.com>',
+		to: `${user.email}`,
+		subject: subject,
+		html: html,
+	});
+};
+
+const emailReview = async (user, review, comment, product) => {
+	const subject = `Producto Valorado - Black Group Design`;
+	
+  const replacements = {
+    username: user.username,
+		rating: review.rating,
+		comment: comment.comment,
+    product: product.product,
+	};
+
+	const html = await readHTMLFile(
+		__dirname + '/templates/emailReview.html',
+		replacements,
+	);
+
+	await transporter.sendMail({
+		from: '"Black Group Design" <noreply@blackgroupdesign.com>',
+		to: `${user.email}`,
+		subject: subject,
+		html: html,
+	});
+};
+
 module.exports = {
   emailSuccessfulRegistration,
-  emailSuccessfulUserActulization,
-  emailResetPassword
+  emailSuccessfulUserActualization,
+  emailResetPassword,
+  emailSuccessfulPurchase,
+  emailReview
 };

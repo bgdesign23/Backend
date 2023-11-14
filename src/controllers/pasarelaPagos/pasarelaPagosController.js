@@ -1,5 +1,6 @@
-const { User, Cart } = require("../../db.js");
+const { User, Cart, Product } = require("../../db.js");
 const { verifyToken } = require("../../middlewares/jwt.js");
+const { emailSuccessfulPurchase } = require("../../utils/nodemailer/emails.js");
 
 const createCart_Controller = async (cart, token) => {
   try {
@@ -24,11 +25,35 @@ const createCart_Controller = async (cart, token) => {
       await savedCart.destroy();
     }
 
+    const cartArray = JSON.parse(cart[0]);
+    if (cartArray.length) {
+      for (let i = 0; i < cartArray.length; i++) {
+        const foundProduct = await Product.findOne({
+          where: { id: cartArray[i].id },
+        });
+        const newStock = foundProduct.stock - cartArray[i].amount;
+        await foundProduct.update({ stock: newStock });
+      }
+    }
+
     const newCart = await Cart.create({
       products: cart,
       status: "success",
     });
     await newCart.setUser(existingUser);
+
+    const productList = JSON.parse(newCart.dataValues.products[0]);
+
+    const totalPurchase = productList.reduce((total, product) => {
+      const productTotal = product.amount * parseFloat(product.price);
+      return total + productTotal;
+    }, 0);
+
+    await emailSuccessfulPurchase(
+      { username: decoded.user.username, email: decoded.user.email },
+      { newCart: newCart.dataValues.products },
+      { total: totalPurchase }
+    );
 
     return {
       error: null,
@@ -59,10 +84,16 @@ const saveCart_Controller = async (cart, token) => {
         status: "saved",
       },
     });
-    
-    if (!findCart && (cart[0] == null || JSON.stringify(cart) === JSON.stringify(["[]"]))) {return { error: null, message: "Nada para guardar" };}
 
-    if (findCart && JSON.stringify(cart) === JSON.stringify(["[]"])) await findCart.destroy();
+    if (
+      !findCart &&
+      (cart[0] == null || JSON.stringify(cart) === JSON.stringify(["[]"]))
+    ) {
+      return { error: null, message: "Nada para guardar" };
+    }
+
+    if (findCart && JSON.stringify(cart) === JSON.stringify(["[]"]))
+      await findCart.destroy();
 
     if (!findCart) {
       const saveCart = await Cart.create({

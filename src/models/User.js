@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.TEXT,
-        defaultValue: 'https://i.imgur.com/veqwMvk.jpg'
+        defaultValue: "https://i.imgur.com/veqwMvk.jpg",
       },
       role: {
         type: DataTypes.INTEGER,
@@ -48,7 +48,11 @@ module.exports = (sequelize) => {
       },
       isDisabled: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     { paranoid: true }

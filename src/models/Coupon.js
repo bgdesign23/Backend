@@ -35,6 +35,6 @@ module.exports = (sequelize) => {
         unique: true, // Para garantizar la unicidad de los códigos
       },
     },
-    { timestamps: false }
+    { paranoid: true }
   );
 };

@@ -14,9 +14,9 @@ const getAllCarts_Handler = async (req, res) => {
 };
 
 const getByUserCarts_Handler = async (req, res) => {
-  const { UserId } = req.body;
+  const { id } = req.params;
   try {
-    const carts = await getByUserCarts_Controller(UserId);
+    const carts = await getByUserCarts_Controller(id);
     res.status(200).json(carts);
   } catch (error) {
     return res.status(400).json({ error: error.message });

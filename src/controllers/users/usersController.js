@@ -3,7 +3,7 @@ const { signToken, verifyToken } = require("../../middlewares/jwt.js");
 const { bcrypt, saltRounds } = require("../../middlewares/bcrypt.js");
 const {
   emailSuccessfulRegistration,
-  emailSuccessfulUserActulization,
+  emailSuccessfulUserActualization,
   emailResetPassword,
 } = require("../../utils/nodemailer/emails.js");
 const { Op } = require("sequelize");
@@ -164,6 +164,14 @@ const deleteUser_Controller = async (id) => {
   return { message: "Usuario eliminado correctamente" };
 };
 
+const eliminatedUsers_Controller = async () => {
+  const eliminatedUsers = await User.findAll({ paranoid: false, where: { deletedAt: { [Op.not]: null } } });
+  if (!eliminatedUsers || eliminatedUsers.length === 0) {
+    return { message: "No se encontraron usuarios eliminados" };
+  }
+  return eliminatedUsers;
+};
+
 const restoreUser_Controller = async (id) => {
   const user = await User.findByPk(id, { paranoid: false });
   if (!user) throw new Error("No se encontró el usuario a restaurar");
@@ -204,16 +212,22 @@ const updateUser_Controller = async (
     const userUpdated = await User.findOne({ where: { id: decoded.user.id } });
     if (!userUpdated) throw new Error("No se encontró el usuario actualizado");
 
-    await emailSuccessfulUserActulization(
+    const newToken = await signToken(
+      { user: userUpdated.dataValues },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    await emailSuccessfulUserActualization(
       { username: userUpdated.username, email: userUpdated.email },
-      token
+      newToken
     );
 
     return {
       error: null,
       authenticated: true,
       user: userUpdated,
-      token: token,
+      token: newToken,
       message: "Usuario actualizado con éxito",
     };
   } catch (error) {
@@ -398,6 +412,7 @@ module.exports = {
   restoreUser_Controller,
   updateUser_Controller,
   googleUser_Controller,
+  eliminatedUsers_Controller,
   requestPasswordResetUser_Controller,
   confirmPasswordResetUser_Controller,
 };

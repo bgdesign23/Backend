@@ -4,6 +4,9 @@ const {
     postAdminController,
     getAdminByIdController,
     deleteAdminController,
+    restoreAdminController,
+    updateAdminController,
+    eliminatedAdminController,
 } = require("../controllers/admin/adminController");
 
 // Obtenemos todos los admins;
@@ -56,16 +59,56 @@ const getAdminByIdHandler = async (req, res) => {
     };
 };
 
+// Almacena los admins eliminados;
+const eliminatedAdminHandler = async (req, res) => {
+    try {
+      const adminEliminated = await eliminatedAdminController();
+      return res.status(200).json(adminEliminated);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
 // Eliminar un administrados;
 const deleteAdminHandler = async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
         const response = await deleteAdminController(id);
-        if(response) {
-            return res.status(200).json("Delete Succesfully"); 
-        } else return res.status(404).json("Admin not found");
+        return res.status(200).json(response); 
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
+    };
+};
+
+// Restaurar un admin;
+const restoreAdminHandler = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const restored = await restoreAdminController(id);
+        return res.status(200).json(restored);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    };
+};
+
+// Modificar un admin;
+const updateAdminHandler = async (req, res) => {
+    const { username, phone, location, email } = req.body;
+    const id = req.params.id;
+    const password = req.body.newPassword;
+    try {
+        const result = await updateAdminController(
+            username,
+            phone,
+            location,
+            email,
+            password,
+            id,
+          );
+          if (!result) throw new Error("El admin no pudo actualizarse"); 
+          return res.status(200).json(result); 
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
     };
 };
 
@@ -74,4 +117,7 @@ module.exports = {
     postAdminHandler,
     getAdminByIdHandler,
     deleteAdminHandler,
+    restoreAdminHandler,
+    updateAdminHandler,
+    eliminatedAdminHandler,
 }

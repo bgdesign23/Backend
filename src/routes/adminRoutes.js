@@ -4,14 +4,21 @@ const {
     postAdminHandler, 
     deleteAdminHandler, 
     getAdminByIdHandler,
+    restoreAdminHandler,
+    updateAdminHandler,
+    eliminatedAdminHandler,
 } = require("../handlers/adminHandler");
 const adminRouter = Router();
 
 // GET;
 adminRouter.get("/", getAdminHandler);
 adminRouter.get("/:id", getAdminByIdHandler);
+adminRouter.get("/restore/:id", restoreAdminHandler);
+adminRouter.get("/res/eliminated", eliminatedAdminHandler);
 // POST;
 adminRouter.post("/create", postAdminHandler);
+// PUT;
+adminRouter.put("/:id", updateAdminHandler);
 // DELETE;
 adminRouter.delete("/delete/:id", deleteAdminHandler);
 

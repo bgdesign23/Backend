@@ -1,0 +1,46 @@
+<table style="background-color: #f2f2f2; width: 100%; padding: 20px">
+    <tr>
+      <td style="text-align: center; vertical-align: middle;">
+        <img style="width: 50%; height: auto;" src="https://res.cloudinary.com/dwglvjgcy/image/upload/v1699246153/Imagenes/Untitled-removebg-preview_cxhzz5.png" alt="Black Group Design" />
+        <p style="font-size: 20px; color: #163440; font-family: Cinzel, serif">
+          ¡Muchas gracias por comprar en nuestra tienda!
+        </p>
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 16px">
+          Aquí dejamos la información de la compra realizada:
+        </p>
+        <p style="color: #163440">Productos comprados:</p>
+        <ul style="list-style-type: none; padding: 0; text-align: center; list-style-position: inside;">
+          {{#each product}}
+            <li>
+              {{this.name}}
+              <ul>
+                <li style="margin-right: 75px">Precio unitario: $ {{this.price}}</li>
+                <li style="margin-right: 75px">Cantidad: {{this.amount}}</li>
+              </ul>
+            </li>
+          {{/each}}
+        </ul>
+        <p style="color: #163440">Precio total: $ {{total}}</p>
+        <p style="font-size: 14px; font-family: 'Montserrat', sans-serif; color: #888888; margin-top: 20px;">
+          Para coordinar el envío del producto escríbenos al correo electrónico
+        </p>
+        <p style="font-size: 18px; text-align: center;">
+          <a href="mailto:bgd.grupo12@gmail.com" style="text-decoration: none; margin: 0 10px;">
+            <img /> bgd.grupo12@gmail.com
+          </a>
+        </p>
+        <p style="font-size: 14px; font-family: 'Montserrat', sans-serif; color: #888888; margin-top: 20px;">
+          o puedes enviarnos un whatsapp
+        </p>
+        <p style="font-size: 18px; text-align: center;">
+          <a href="https://api.whatsapp.com/send?phone=+542477456785" style="text-decoration: none;">
+            <img /> +54 2477 456785
+          </a>
+        </p>
+        <p style="font-size: 14px; color: #777; text-align: center;">
+          &copy; 2023 Black Group Design. Todos los derechos reservados.
+        </p>
+      </td>
+    </tr>
+  </table>
+  
