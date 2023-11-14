@@ -22,7 +22,7 @@ prodRouter.get("/:id", getProduct_ById_handler);
 prodRouter.get("/search/:name", getProduct_ByName_handler);
 prodRouter.get("/searchByHashtag/:hashtag", getProduct_ByHashtag_handler);
 prodRouter.get("/restore/eliminated", eliminatedProducts_Handler);
-prodRouter.get("/restore/:id", restoreProduct_handler);
+prodRouter.put("/restore/:id", restoreProduct_handler);
 //POST
 prodRouter.post(
   "/create",
