@@ -1,5 +1,6 @@
 const { User, Coupon } = require("../../db");
 const couponJson = require("../../utils/json/coupon.json");
+const { Op } = require("sequelize");
 
 // Trae los cupones;
 const getCouponController = async () => {
@@ -50,11 +51,10 @@ const createCoupon_Controller = async (data, id) => {
 
 // Restaurar un cupon;
 const restoreCouponController = async (id) => {
-  const restored = await Coupon.restore({
-    where: {id}
-});
-if(restored === 1) return "Cupón restaurado con éxito"
-throw Error("No se pudo restaurar el cupón");
+  const coupon = await Coupon.findByPk(id, { paranoid: false });
+  if (!coupon) throw new Error("No se encontró el cupón a restaurar");
+  await coupon.restore();
+  return { message: "Cupón restaurado con éxito", coupon };
 };
 
 // Modificar un cupon;
@@ -89,13 +89,22 @@ const updateCouponController = async (
   }
 };
 
+// Almacenamiento de los cupones eliminados;
+const eliminatedCouponController = async () => {
+  const eliminatedCoupon = await Coupon.findAll({ paranoid: false, where: { deletedAt: { [Op.not]: null } } });
+  console.log(eliminatedCoupon);
+  if (!eliminatedCoupon || eliminatedCoupon.length === 0) {
+    return { message: "No se encontraron cupones eliminados" };
+  }
+  return eliminatedCoupon;
+};
+
 // Eliminar un cupon;
 const deleteCouponController = async (id) => {
-  if (id) {
-     const data = await Coupon.destroy({
-       where: { id: id } });
-     return true;  
-  } else return false;
+ const cupon = await Coupon.findByPk(id);
+ if (!cupon) throw new Error ("No se encontró cupón a eliminar");
+ await cupon.destroy();
+ return { message: "Cupón eliminado exitosamente" };
 };
 
 module.exports = {
@@ -104,4 +113,5 @@ module.exports = {
   deleteCouponController,
   restoreCouponController,
   updateCouponController,
+  eliminatedCouponController,
 };
