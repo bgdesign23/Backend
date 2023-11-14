@@ -4,6 +4,7 @@ const {
     deleteCouponController,
     restoreCouponController,
     updateCouponController,
+    eliminatedCouponController,
 } = require("../controllers/coupon/couponController");
 
 const { Coupon } = require("../db");
@@ -45,27 +46,34 @@ const createCoupon_Handler = async (req, res) => {
     };
   };
 
+// Almacena los cupones eliminados;
+const eliminatedCouponHandler = async (req, res) => {
+  try {
+    const couponEliminated = await eliminatedCouponController();
+    return res.status(200).json(couponEliminated);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  };
+};  
+
 // Eliminar un cupon;
 const deleteCouponHandler = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    const response = await deleteCouponController(id);
-    if(response) {
-      return res.status(200).json("Delete Succesfully");
-    } else return res.status(404).json("Coupon not found");
+    const deletedCoupon = await deleteCouponController(id);
+      return res.status(200).json(deletedCoupon);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   };
 };
 // Restaurar un cupon;
 const restoreCouponHandler = async (req, res) => {
+  const {id} = req.params;
   try {
-    const {id} = req.params;
     const restored = await restoreCouponController(id);
-    if(restored) return res.status(200).json(restored);
-    return res.status(400).json({error: "Coupon not found"});
+    return res.status(200).json(restored);
   } catch (error) {
-    res.status(200).json({error:error.message})
+    res.status(400).json({ error:error.message });
   };
 };
 
@@ -96,4 +104,5 @@ const updateCouponHandler = async (req, res) => {
     deleteCouponHandler,
     restoreCouponHandler,
     updateCouponHandler,
+    eliminatedCouponHandler,
   };
