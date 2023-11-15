@@ -1,19 +1,19 @@
 const { Router } = require("express");
-const { 
-    getAdminHandler, 
-    postAdminHandler, 
-    deleteAdminHandler, 
-    getAdminByIdHandler,
-    restoreAdminHandler,
-    updateAdminHandler,
-    eliminatedAdminHandler,
+const {
+  getAdminHandler,
+  postAdminHandler,
+  deleteAdminHandler,
+  getAdminByIdHandler,
+  restoreAdminHandler,
+  updateAdminHandler,
+  eliminatedAdminHandler,
 } = require("../handlers/adminHandler");
 const adminRouter = Router();
 
 // GET;
 adminRouter.get("/", getAdminHandler);
 adminRouter.get("/:id", getAdminByIdHandler);
-adminRouter.get("/restore/:id", restoreAdminHandler);
+adminRouter.put("/restore/:id", restoreAdminHandler);
 adminRouter.get("/res/eliminated", eliminatedAdminHandler);
 // POST;
 adminRouter.post("/create", postAdminHandler);
