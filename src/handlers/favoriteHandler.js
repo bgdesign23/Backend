@@ -1,4 +1,7 @@
-const { postFavoriteController } = require("../controllers/favorites/favoriteController");
+const { 
+    postFavoriteController, 
+    deleteFavController, 
+} = require("../controllers/favorites/favoriteController");
 
 const postFavoriteHandler = async (req, res) => {
     try {
@@ -22,6 +25,17 @@ const postFavoriteHandler = async (req, res) => {
     };
 };
 
+const deleteFavHandler = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await deleteFavController(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    };
+};
+
 module.exports = {
-    postFavoriteHandler
+    postFavoriteHandler,
+    deleteFavHandler
 }

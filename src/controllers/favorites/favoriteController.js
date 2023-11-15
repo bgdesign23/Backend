@@ -43,7 +43,14 @@ const postFavoriteController = async (data, image, id) => {
     throw new Error(error.message);
    };
 };
+const deleteFavController = async (id) => {
+    const favs = await Favorite.findByPk(id);
+    if (!favs) throw new Error ("No se encontró un favorito a eliminar");
+    await favs.destroy();
+    return { message: "Favorito eliminado exitosamente" };
+};
 
 module.exports = {
     postFavoriteController,
+    deleteFavController,
 };
