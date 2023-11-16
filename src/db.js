@@ -49,6 +49,7 @@ const {
   Cart,
   UserPasswordReset,
   Admin,
+  Favorite,
 } = sequelize.models;
 
 Category.hasMany(Product, { as: "products" });
@@ -59,6 +60,9 @@ Product.belongsTo(Category, {
 
 User.belongsToMany(Product, { through: "user_product" });
 Product.belongsToMany(User, { through: "user_product" });
+
+User.belongsToMany(Favorite, { through: "user_favorite" });
+Favorite.belongsToMany(User, { through: "user_favorite" });
 
 Product.belongsToMany(Offer, { through: "product_offer" });
 Offer.belongsToMany(Product, { through: "product_offer" });

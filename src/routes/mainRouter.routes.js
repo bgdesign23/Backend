@@ -7,8 +7,9 @@ const offerRouter = require("./offerRoutes.js");
 const designsRouter = require("./designsRoutes.js");
 const pasarelaPagos_Router = require("./pasarelaPagosRoute.js");
 const couponRouter = require("./couponRoutes.js");
-const adminRouter = require("./adminRoutes.js")
-const cartsRouter = require("./cartsRoutes.js")
+const adminRouter = require("./adminRoutes.js");
+const cartsRouter = require("./cartsRoutes.js");
+const favoriteRouter = require("./favoriteRoutes.js");
 
 // router initializated
 const mainRouter = Router();
@@ -21,7 +22,8 @@ mainRouter.use("/offer", offerRouter);
 mainRouter.use("/designs", designsRouter);
 mainRouter.use("/payment", pasarelaPagos_Router);
 mainRouter.use("/coupon", couponRouter);
-mainRouter.use("/admin", adminRouter)
-mainRouter.use("/carts", cartsRouter)
+mainRouter.use("/admin", adminRouter);
+mainRouter.use("/carts", cartsRouter);
+mainRouter.use("/favorite", favoriteRouter);
 
 module.exports = mainRouter;
