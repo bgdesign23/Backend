@@ -21,7 +21,7 @@ const postFavoriteController = async (data, image, id) => {
     if (findFav) return res.status(302).json({ message: "this favorite already exists "});
     const findUser = await User.findOne({
         where: {
-            id: id,
+            id: data.userId,
         },
     });
     if (!findUser) throw new Error ("no existe un usario");
@@ -50,7 +50,14 @@ const deleteFavController = async (id) => {
     return { message: "Favorito eliminado exitosamente" };
 };
 
+const getFavController = async () => {
+    const favorites = await Favorite.findAll()
+    if(!favorites.length) throw new Error ("No se encontraron favoritos")
+    return favorites
+}
+
 module.exports = {
     postFavoriteController,
     deleteFavController,
+    getFavController
 };
