@@ -1,6 +1,7 @@
 const { 
     postFavoriteController, 
     deleteFavController, 
+    getFavController
 } = require("../controllers/favorites/favoriteController");
 
 const postFavoriteHandler = async (req, res) => {
@@ -21,7 +22,7 @@ const postFavoriteHandler = async (req, res) => {
         const newFavorite = await postFavoriteController(data, image, id);
         return res.json(newFavorite)
     } catch (error) {
-        return res.status(500).json({ erorr: error.message });
+        return res.status(500).json({ error: error.message });
     };
 };
 
@@ -35,7 +36,19 @@ const deleteFavHandler = async (req, res) => {
     };
 };
 
+const getFavHandler = async (req, res) => {
+    try {
+        const favs = await getFavController()
+        return res.status(200).json(favs)
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+}
+
+
+
 module.exports = {
     postFavoriteHandler,
-    deleteFavHandler
+    deleteFavHandler,
+    getFavHandler
 }
