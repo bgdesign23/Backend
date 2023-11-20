@@ -1,6 +1,6 @@
 const { Favorite, User } = require("../../db");
 
-const postFavoriteController = async (data, image, id) => {
+const postFavoriteController = async (data, image) => {
    try {
     if (image === "") {
         image =
@@ -8,36 +8,32 @@ const postFavoriteController = async (data, image, id) => {
       }
     const findFav = await Favorite.findOne({
         where: {
-            name: data.name.toLowerCase(),
-            type: data.type,
-            material: data.material,
-            description: data.description,
-            price: data.price,
-            stock: data.stock,
-            image: image,
-            color: data.color,  
+            id: data.id,
+            UserId: data.userId
         },
     })
-    if (findFav) return res.status(302).json({ message: "this favorite already exists "});
+    if (findFav) throw new Error ("Ya se agrego este producto a sus favoritos");
     const findUser = await User.findOne({
         where: {
             id: data.userId,
         },
     });
-    if (!findUser) throw new Error ("no existe un usario");
+    if (!findUser) throw new Error ("No se encontró un usuario con ese id");
 
     const favoriteObj = {
-        name: data.name.toLowerCase(),
+        id: data.id,
+        name: data.name,
         type: data.type,
         material: data.material,
         description: data.description,
         price: data.price,
         stock: data.stock,
         image: image,
-        color: data.color,  
+        color: data.color,
+        rating: data.rating,
     };
     const newFavorite = await Favorite.create(favoriteObj); 
-    await newFavorite.addUser(findUser);
+    await newFavorite.setUser(findUser);
     return newFavorite; 
    } catch (error) {
     throw new Error(error.message);
@@ -50,9 +46,9 @@ const deleteFavController = async (id) => {
     return { message: "Favorito eliminado exitosamente" };
 };
 
-const getFavController = async () => {
-    const favorites = await Favorite.findAll()
-    if(!favorites.length) throw new Error ("No se encontraron favoritos")
+const getFavController = async (id) => {
+    if (!id) throw new Error("El servidor no recibió el id de usuario necesario");
+    const favorites = await Favorite.findAll({where: {UserId: id}})
     return favorites
 }
 

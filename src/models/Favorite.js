@@ -5,10 +5,14 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Favorite",
     {
-      id: {
+      Favoriteid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+      },
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
       },
       name: {
         type: DataTypes.STRING,

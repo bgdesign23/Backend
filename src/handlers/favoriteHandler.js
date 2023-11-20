@@ -7,9 +7,9 @@ const {
 const postFavoriteHandler = async (req, res) => {
     try {
         const data = req.body;
-        const { id } = req.params; 
         const image = typeof req.file === 'object' ? req.file.path : req.body.image;
         if (
+            !data.id ||
             !data.name ||
             !data.type ||
             !data.description ||
@@ -19,7 +19,7 @@ const postFavoriteHandler = async (req, res) => {
             !data.color
         )
             return res.status(400).json("missing form data");
-        const newFavorite = await postFavoriteController(data, image, id);
+        const newFavorite = await postFavoriteController(data, image);
         return res.json(newFavorite)
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -37,8 +37,9 @@ const deleteFavHandler = async (req, res) => {
 };
 
 const getFavHandler = async (req, res) => {
+    const { id } = req.params;
     try {
-        const favs = await getFavController()
+        const favs = await getFavController(id)
         return res.status(200).json(favs)
     } catch (error) {
         return res.status(400).json({ error: error.message });
