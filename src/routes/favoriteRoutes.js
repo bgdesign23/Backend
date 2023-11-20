@@ -7,10 +7,10 @@ const {
 const favoriteRouter = Router();
 
 // POST;
-favoriteRouter.post("/:id", postFavoriteHandler);
+favoriteRouter.post("/", postFavoriteHandler);
 // DELETE;
-favoriteRouter.delete("/delete/:id", deleteFavHandler);
+favoriteRouter.delete("/:id", deleteFavHandler);
 //GET
-favoriteRouter.get("/", getFavHandler)
+favoriteRouter.get("/:id", getFavHandler)
 
 module.exports = favoriteRouter;

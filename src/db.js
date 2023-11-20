@@ -61,8 +61,11 @@ Product.belongsTo(Category, {
 User.belongsToMany(Product, { through: "user_product" });
 Product.belongsToMany(User, { through: "user_product" });
 
-User.belongsToMany(Favorite, { through: "user_favorite" });
-Favorite.belongsToMany(User, { through: "user_favorite" });
+User.hasMany(Favorite, { as: "favorites" });
+Favorite.belongsTo(User, {
+  foreignKey: "UserId",
+  as: "user",
+});
 
 Product.belongsToMany(Offer, { through: "product_offer" });
 Offer.belongsToMany(Product, { through: "product_offer" });
